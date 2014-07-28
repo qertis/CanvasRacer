@@ -4,5 +4,6 @@ Crafty.c("Keyboard", {
 			key = Crafty.keys[key];
 		}
 		return !!Crafty.keydown[key];
-	}		
+	}
 });
+

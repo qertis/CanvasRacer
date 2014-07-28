@@ -1,9 +1,3 @@
-//FIXME ���� �� ���� - �������� �������������
-/*setInterval(function() {
- //	Crafty.e('EnemyCar');
- }, 3000);
- */
-
 //TODO added left and right cars
 Crafty.c('EnemyCar', {
 	init: function () {

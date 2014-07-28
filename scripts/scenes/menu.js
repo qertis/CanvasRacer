@@ -23,7 +23,7 @@ Crafty.defineScene("menu", function () {
 				})
 				.bind('change', function () {
 					if (Crafty.player.name.length < 4) {
-						console.log('your name: too short!');
+						alert('your name: too short!');
 						return false;
 					}
 					Crafty.enterScene('level');

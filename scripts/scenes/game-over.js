@@ -2,6 +2,12 @@ Crafty.defineScene('game-over', function () {
 	Crafty.background('#000 url(images/backgrounds/game_over.PNG) no-repeat center center');
 	Crafty.stage.elem.style.backgroundSize = 'contain';
 
+
+	Crafty.e('Points');
+
+
+	Crafty.player.points = Crafty('Points').getPoints();
+
 	Crafty.e('2D, DOM, Text')
 		.attr({
 			x: 20,

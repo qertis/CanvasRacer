@@ -8,7 +8,7 @@ Crafty.c('DebugMsg', {
 				y: 0,
 				z: 999
 			})
-			.textColor('#FF0000', 1)
+			.textColor('#FF0000')
 	},
 	log: function (msg) {
 		this.text(msg);
