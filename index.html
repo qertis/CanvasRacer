@@ -3,14 +3,59 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Canvas Racer</title>
+
     <link rel='stylesheet' type='text/css' href='styles/style.css'>
     <link rel='stylesheet' type='text/css' href='styles/fonts.css'>
+
 </head>
-<body>
+<body >
+
+
+<button onclick="toggleFullScreen()">FULLSCREEN</button>
+
+
 <!-- GAME CONTAINER -->
 <div id="container" class="center"></div>
 
+
+
+<script>
+    document.addEventListener("click", function(e) {
+//        if (e.keyCode == 13) {
+            ;
+//        }
+    }, false);
+
+    function toggleFullScreen() {
+        if (!document.fullscreenElement &&    // alternative standard method
+                !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+    }
+
+</script>
+
+<script src="scripts/crafty/crafty.js"></script>
 <script src="scripts/init.js"></script>
 </body>
 </html>
