@@ -73,10 +73,13 @@
 					this.trigger('Crash');
 				})
 				.bind('Crash', function () {
-					Crafty.pause(true);
+					//Crafty.pause(true);
 
 					/*TODO delete setTimeout?*/
 					setTimeout(function () {
+
+						Crafty.player.points = Crafty('Points').getPoints();
+
 						Crafty.enterScene('game-over');
 					}, 0);
 				})
@@ -148,6 +151,10 @@
 				})
 				.bind('Move', function () {
 
+					this.smoke.attr({
+						x: this.x,
+						y: this.y
+					})
 
 					if (this.isDown('LEFT_ARROW')) {
 						this.trigger('TurnLeft');
@@ -167,6 +174,9 @@
 						this.trigger('TurnStop');
 					}
 				});
+
+
+			this.smoke = Crafty.e("Smoke").attr({x: 100, y: 200})
 		}
 	});
 

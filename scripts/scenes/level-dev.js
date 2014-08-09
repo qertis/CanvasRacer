@@ -1,8 +1,12 @@
 (function() {
 
 
-	Crafty.defineScene('level', function () {
+	function  levelInit() {
 		Crafty.background('rgb(127,127,127)');
+
+
+		Crafty.e('Asphalt')
+
 
 		/*Crafty.sprite("track.png", {
 		 d_0: [0, 0, 100, 150],
@@ -50,9 +54,17 @@
 		 */
 
 		Crafty.e("Car")
-			.attr({x: 100, y: Crafty.viewport._height - 60, /*w: 20, h: 40,*/ z: 9 })
+			.attr({x: 100, y: Crafty.viewport._height - 60, /*w: 20, h: 40,*/ z: 999 })
+
 
 		Crafty.e("Points")
-	});
+	}
+
+	function levelOut() {
+		console.log('wow')
+	}
+
+
+	Crafty.defineScene('level', levelInit, levelOut);
 
 }());

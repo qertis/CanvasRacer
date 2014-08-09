@@ -85,7 +85,7 @@
 
 	function gameInit() {
 
-		Crafty.init(300, 600, 'container');
+		Crafty.init(320, 480, 'container');
 		Crafty.enterScene("loading");
 
 //			Crafty.stage.inner.webkitRequestFullScreen()

@@ -1,14 +1,9 @@
 (function() {
 
-	Crafty.defineScene('game-over', function () {
+	function levelInit() {
 		Crafty.background('#000 url(images/backgrounds/game_over.PNG) no-repeat center center');
 		Crafty.stage.elem.style.backgroundSize = 'contain';
 
-
-		Crafty.e('Points');
-
-
-		Crafty.player.points = Crafty('Points').getPoints();
 
 		Crafty.e('2D, DOM, Text')
 			.attr({
@@ -34,6 +29,12 @@
 				'1. Nick (1000km) \n' +
 				'2. Ava (900km) \n' +
 				'3. ...');
-	});
+	}
 
-}())
+	function levelOut() {
+
+	}
+
+	Crafty.defineScene('game-over', levelInit, levelOut);
+
+}());
