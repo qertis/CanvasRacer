@@ -54,7 +54,7 @@
 		 */
 
 		Crafty.e("Car")
-			.attr({x: 100, y: Crafty.viewport._height - 60, /*w: 20, h: 40,*/ z: 999 })
+			.attr({x: 100, y: Crafty.viewport._height - 60, w: 20, h: 40, z: 999 })
 
 
 		Crafty.e("Points")

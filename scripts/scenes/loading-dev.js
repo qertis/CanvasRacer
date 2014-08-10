@@ -30,8 +30,13 @@
 
 
 				Crafty.sprite("images/sprites/cars/car1.png", {
-					mycar:[0,0,50,98]
+					mycar:[0,0, 138, 280]
 				});
+
+
+				Crafty.sprite("images/sprites/cars/car2.png", {
+					car2:[0,0, 138, 280]
+				})
 
 
 
