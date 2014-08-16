@@ -4,9 +4,8 @@
 		Crafty.background("#000");
 
 
-
 		Crafty.e('2D, Canvas, Image')
-			.image('images/backgrounds/menu.jpg', 'no-repeat')
+			.image('images/backgrounds/menu.jpg', 'no-repeat');
 
 		Crafty.e("2D, DOM, Text")
 			.attr({ w: 100, h: 20, x: 50, y: 120 })
@@ -107,21 +106,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		Crafty.c('Smoke', {
 			init : function() {
 
@@ -129,21 +113,20 @@
 
 				var options = {
 					maxParticles: 20,
-					size: 12,
+					size: 8,
 //			sizeRandom: 4,
 					speed: 1,
 					//	speedRandom: 1.2,
 					// Lifespan in frames
-					lifeSpan: 29,
+					lifeSpan: 9,
 					//		lifeSpanRandom: 7,
 					// Angle is calculated clockwise: 12pm is 0deg, 3pm is 90deg etc.
 					angle: 180,
 					//	angleRandom: 34,
-					startColour: [255, 131, 0, 1],
-					startColourRandom: [48, 50, 45, 0],
-					endColour: [245, 35, 0, 0],
-					endColourRandom: [60, 60, 60, 0],
-
+					startColour: [204, 204, 204, 1],
+					//startColourRandom: ,
+					endColour: [115, 115, 115, 0],
+					//endColourRandom: [240, 240, 240, 0],
 					//	sharpnessRandom: 10,
 					// Random spread from origin
 					//spread: 10,
@@ -153,16 +136,13 @@
 					fastMode: false,
 					gravity: { x: 0, y:0 },
 					// sensible values are 0-3
-					jitter: 0
-				}
-
+					jitter: 1
+				};
 
 				this.requires('2D,Canvas,Particles')
 					.attr({ x: 100, y: 300	}).particles(options);
 			}
-		})
-
-
+		});
 
 		/*FIXME test*/
 //		Crafty.enterScene('level')

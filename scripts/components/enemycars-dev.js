@@ -3,15 +3,16 @@
 /*TODO added left and right cars*/
 	Crafty.c('EnemyCar', {
 
+		carType : ['car1', 'car2', 'car3', 'car4'],
+
 		_kletka : 32,
 
 		movingTop: false,
 
 		init: function () {
-			this.requires('2D, Canvas, car2, Collision')
-				//.color('rgb(255,0,0)')
 
-
+			this.requires(Crafty.math.randomElementOfArray(this.carType))
+				.requires('2D, Canvas, Sprite, Collision')
 				.attr({
 //					y: 0,
 					movingTop : Crafty.math.randomInt(0, 1),
@@ -42,6 +43,7 @@
 					}
 
 				});
+
 
 			var randX = Crafty.math.randomInt(0, 300);
 
