@@ -1,5 +1,5 @@
 {
-  "product" : "canvas racer",
-  "production": false,
-  "version": 0.001
+    "product": "canvas racer",
+    "production": false,
+    "version": 0.001
 }

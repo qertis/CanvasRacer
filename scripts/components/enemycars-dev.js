@@ -1,75 +1,56 @@
-(function() {
+(function (Crafty) {
 
-/*TODO added left and right cars*/
 	Crafty.c('EnemyCar', {
-
-		carType : ['car1', 'car2', 'car3', 'car4'],
-
-		_kletka : 32,
-
-		movingTop: false,
-
+        speed: 0.0,
 		init: function () {
+            var carType = ['car1', 'car2', 'car3', 'car4'],
+                movingTop = Crafty.math.randomInt(0, 1);
 
-			this.requires(Crafty.math.randomElementOfArray(this.carType))
-				.requires('2D, Canvas, Sprite, Collision')
-				.attr({
-//					y: 0,
-					movingTop : Crafty.math.randomInt(0, 1),
-					w: 20,
-					h: 40,
-					rotation: 0,
-					_speed: Crafty.math.randomInt(2,3)
+            this.requires('2D, Canvas, Sprite, Collision')
+                .requires(Crafty.math.randomElementOfArray(carType))
+                .attr({
+                    w: 64,
+                    h: 141
 				})
+                .collision(
+                new Crafty.polygon([5, 20], [30, 5], [50, 20], [50, 140], [5, 140])
+            )
+                .onHit('EnemyCar', function () {
+                    console.log('enemy car');
+
+                    this.unbind('SpeedUp');
+                    this.destroy();
+                })
 				.bind('SpeedUp', function() {
-					this.y += this._speed;
+                    this.y += this.speed;
+
+                    if (this.y > Crafty.viewport.height * 2)
+                        this.destroy();
 				})
 				.bind('SpeedDown', function() {
-					this.y -= this._speed;
+                    this.y -= this.speed;
+
+                    if (this.y < -Crafty.viewport.height)
+                        this.destroy();
 				})
 				.bind('EnterFrame', function () {
-
-
-					if(this.movingTop) {
-
+                    if (movingTop)
 						this.trigger('SpeedUp');
-
-						if (this.y > Crafty.viewport.height) {
-							this.destroy();
-						}
-					} else {
-						this.trigger('SpeedDown');
-
-					}
-
+                    else
+                        this.trigger('SpeedDown');
 				});
 
-
-			var randX = Crafty.math.randomInt(0, 300);
-
-			this.x = randX % this._kletka + randX
-
-
-			if(this.movingTop) {
-				this.y = -Crafty.math.randomInt(0, 300)
-
+            if (movingTop) {
+                this.x = Crafty.math.randomInt(100, 160);
+                this.y = -Crafty.math.randomInt(this.h, Crafty.viewport.height);
 				this.rotation = 180;
+                this.speed = Crafty.math.randomNumber(6, 8);
 			} else {
-				this.y = Crafty.math.randomInt(300, 500)
+                this.x = Crafty.math.randomInt(180, 220);
+                this.y = Crafty.math.randomInt(Crafty.viewport.height, Crafty.viewport.height + this.h);
+                this.rotation = 0;
+                this.speed = Crafty.math.randomNumber(1, 3);
 			}
-
-
-
-			this.onHit('EnemyCar', function() {
-				console.log('blya')
-
-				this.unbind('SpeedUp')
-				this.destroy();
-
-
-			})
 		}
 	});
-
-}());
-
+}(Crafty));

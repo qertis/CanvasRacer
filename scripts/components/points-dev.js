@@ -1,27 +1,27 @@
-(function() {
+(function () {
 
-	Crafty.c('Points', {
-		_score: 0,
+    Crafty.c('Points', {
+        _score: 0,
 
-		getPoints: function () {
-			return this._score;
-		},
-		init: function () {
-			this
-				.requires('BoldFont')
-				.attr({
-					x: 20,
-					y: 20,
-					w: 100,
-					h: 20,
-					points: 0
-				})
-				.bind('EnterFrame', function () {
+        getPoints: function () {
+            return this._score;
+        },
+        init: function () {
+            this
+                .requires('BoldFont')
+                .attr({
+                    x: 20,
+                    y: 20,
+                    w: 100,
+                    h: 20,
+                    points: 0
+                })
+                .bind('EnterFrame', function () {
 
-					this.text('Points' + this._score++);
-				})
-				.text("0 Points");
-		}
-	});
+                    this.text('Points' + this._score++);
+                })
+                .text("0 Points");
+        }
+    });
 
 }());

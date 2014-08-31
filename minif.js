@@ -25,10 +25,10 @@ process.argv.forEach(function (val, index, array) {
 });
 
 function fileToAnonymDeclare() {
-	return uglified.code;
-	
-	//TODO include global function in local  
-	//return resultJsCode.concat('(function(){', String(uglified.code), '}());');
+    return uglified.code;
+
+    //TODO include global function in local
+    //return resultJsCode.concat('(function(){', String(uglified.code), '}());');
 }
 
 function startConcat() {
@@ -41,7 +41,7 @@ function startConcat() {
             if (myArguments[myArguments.length - 1] === '-t') {
                 // Deep-copy an existing directory
                 wrench.copyDirSyncRecursive(__dirname, "L:/", {
-                    forceDelete : true							// Whether to overwrite existing directory or not
+                    forceDelete: true							// Whether to overwrite existing directory or not
                     //,excludeHiddenUnix: false 					// Whether to copy hidden Unix files or not (preceding .)
                     //,preserveFiles: true 						// If we're overwriting something and the file already exists, keep the existing
                     //,preserveTimestamps: true 					// Preserve the mtime and atime when copying files
