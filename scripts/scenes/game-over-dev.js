@@ -4,6 +4,7 @@
         Crafty.background('#000 url(images/backgrounds/game_over.PNG) no-repeat center center');
         Crafty.stage.elem.style.backgroundSize = 'contain';
 
+
         Crafty.e('2D, DOM, Text')
             .attr({
                 x: 20,
@@ -33,8 +34,33 @@
         /* TODO share facebook btn */
 
         /* TODO vk btn */
+        Crafty.e('Button')
+            .attr({
+                x: 150,
+                y: 50,
+                w: 50,
+                h: 50
+            })
+            .bind('Click', function () {
 
-        /* TODO Again button*/
+                window.open('http://vkontakte.ru/share.php?url=' + window.location.href);
+            })
+            .setText('VK SHARE');
+
+
+        Crafty.e('Button')
+            .attr({
+                x: 150,
+                y: 150,
+                w: 50,
+                h: 50
+            })
+            .bind('Click', function () {
+                Crafty.scene('level');
+            })
+            .setText('Again');
+
+
     }
 
     function levelOut() {

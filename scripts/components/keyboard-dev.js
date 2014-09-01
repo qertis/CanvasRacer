@@ -1,4 +1,4 @@
-(function () {
+(function (Crafty) {
 
     Crafty.c("Keyboard", {
         isDown: function (key) {
@@ -8,4 +8,5 @@
             return !!Crafty.keydown[key];
         }
     });
-}());
+
+}(Crafty));

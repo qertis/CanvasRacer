@@ -1,4 +1,4 @@
-(function () {
+(function (Crafty) {
 
     Crafty.defineScene('loading', function () {
         Crafty.background('#000000');
@@ -80,24 +80,23 @@
                 });
 
                 Crafty.c('Asphalt', {
+                    speed: 4,
+                    defaultY: -340,
                     init: function () {
-
-                        var y = -340;
-
-                        this.requires("2D, Canvas, asphalt")
+                        this.requires('2D, Canvas, asphalt')
                             .attr({
                                 w: 100,
                                 h: 100,
                                 x: Crafty.viewport.width / 2,
-                                y: Crafty.viewport.height / 2,
                                 z: 1
                             })
                             .bind('EnterFrame', function () {
-                                this.y += 4;
+                                this.y += this.speed;
 
                                 if (this.y > Crafty.viewport.height)
-                                    this.y = y;
+                                    this.y = this.defaultY;
                             })
+                        ;
                     }
                 });
 
@@ -121,5 +120,4 @@
         );
     });
 
-
-}());
+}(Crafty));

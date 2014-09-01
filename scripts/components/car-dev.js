@@ -61,19 +61,18 @@
                     UP_ARROW: -90,
                     DOWN_ARROW: 90
                 })
-                .onHit('EnemyCar', function () {
+                .onHit('EnemyCar', function (car) {
                     this.trigger('Crash');
                 })
-                .bind('Crash', function () {
-
+                .one('Crash', function () {
 
                     Crafty.player.points = Crafty('Points').getPoints();
                     Crafty.enterScene('game-over');
 
                     Crafty.e('Timer').setTimeCallback(2, function () {
 
-
                     });
+
                 })
                 .bind('GoUp', function () {
                     this.y--;
@@ -105,6 +104,7 @@
                     this.tween({rotation: 0}, 200);
                 })
                 .bind('EnterFrame', function (obj) {
+
                     /*увеличиваем скорость каждые 10 тиков*/
                     if (obj.frame % 10 === 0) {
                         this.trigger('GoUp');
@@ -113,10 +113,11 @@
                     this.move('s', this._directionS);
                     this.move('w', this._directionW);
 
-
+                    //TODO сделать проверку получше
                     if (Crafty('EnemyCar').length <= Crafty.math.randomInt(1, 2)) {
                         Crafty.e('EnemyCar')
                     }
+
 
                 })
                 .bind('RenderScene', function () {
@@ -157,10 +158,17 @@
                     } else {
                         this.trigger('TurnStop');
                     }
-                });
+                })
+            ;
 
 
-            this.smoke = Crafty.e("Smoke").attr({x: 100, y: 200})
+            this.smoke = Crafty
+                .e("Smoke")
+                .attr({
+                    x: 100,
+                    y: 200
+                })
+            ;
         }
     });
 

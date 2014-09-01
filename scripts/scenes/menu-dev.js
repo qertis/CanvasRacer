@@ -1,4 +1,4 @@
-(function () {
+(function (Crafty) {
 
     Crafty.defineScene("menu", function () {
         Crafty.background("#000");
@@ -46,13 +46,15 @@
         });
 
         Crafty.e('2D, Canvas, Image')
-            .image('images/backgrounds/menu.jpg', 'no-repeat');
+            .image('images/backgrounds/menu.jpg', 'no-repeat')
+        ;
 
         Crafty.e("2D, DOM, Text")
             .attr({ w: 100, h: 20, x: 50, y: 120 })
             .text("Your Name: ")
             .css({ "text-align": "center"})
-            .textColor("#FFFFFF");
+            .textColor("#FFFFFF")
+        ;
 
         Crafty.c('InputChangeEvents', {
             init: function () {
@@ -119,23 +121,26 @@
             }
         });
 
-        Crafty.c('OkButton', {
+        Crafty.c('Button', {
+            _button: null,
             init: function () {
                 this.requires('HTML, Mouse');
                 var button = document.createElement('button');
-                button.textContent = 'START';
 
                 button.style.color = '#333';
                 button.style.backgroundColor = 'ghostwhite';
                 button.style.padding = '4px 12px';
                 button.style.border = 'none';
-//				button.style.backgroundImage = 'images/sprites/controls/flatDark41.png';
 
-                this.replace(button.outerHTML);
+                this._button = button;
+            },
+            setText: function (text) {
+                this._button.textContent = text;
+                this.replace(this._button.outerHTML);
             }
         });
 
-        Crafty.e('OkButton')
+        Crafty.e('Button')
             .attr({
                 x: 150,
                 y: 150,
@@ -146,14 +151,14 @@
                 //Crafty.fullscreen.on();//todo вернуть в продакшене
 
                 Crafty('InputChangeEvents').change();
-            });
+            })
+            .setText('Start')
+        ;
 
         Crafty.e("InputChangeEvents");
 
-
         Crafty.c('Smoke', {
             init: function () {
-
 
                 var options = {
                     maxParticles: 20,
@@ -192,4 +197,4 @@
         Crafty.enterScene('level')
     });
 
-}());
+}(Crafty));

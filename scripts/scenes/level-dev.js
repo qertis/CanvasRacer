@@ -1,14 +1,15 @@
-(function () {
-
+(function (Crafty) {
 
     function levelInit() {
+
         Crafty.background('rgb(127,127,127)');
 
         Crafty.e('Grass');
 
-        Crafty.e('Asphalt').attr({
-
-        });
+        Crafty.e('Asphalt').attr({ y: -200 });
+        Crafty.e('Asphalt').attr({ y: 0 });
+        Crafty.e('Asphalt').attr({ y: 200 });
+        Crafty.e('Asphalt').attr({ y: 400 });
 
         Crafty.e('Road').attr({
 
@@ -25,18 +26,14 @@
                 z: 999
             });
 
-
-//        Crafty.e('EnemyCar')
-
-
         Crafty.e("Points")
     }
 
     function levelOut() {
-        console.log('wow')
+        console.log('level out')
     }
 
 
     Crafty.defineScene('level', levelInit, levelOut);
 
-}());
+}(Crafty));
