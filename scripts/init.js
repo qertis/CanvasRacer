@@ -1,23 +1,26 @@
 (function (Crafty, window) {
 
     window.addEventListener('load', function () { // on page load
-        console.log(document.readyState)
 
         // TODO PRODUCTION ONLY
         // window.onblur = Crafty.gameBlur;
         // window.onfocus = Crafty.gameFocus;
 
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
         //последовательность: getCraftyModules-> getGameConfig-> gameInit
 //		getCraftyModules();
 //		getGameConfig();
 //		gameInit();
 
-        console.log(document.readyState);
+        document.onkeypress = function (e) {
+            // Ctrl-R
+            if (e.keyCode == 114) {
+                Crafty.enterScene('level');
+                e.preventDefault();
+            }
+        };
 
         testInit();
+
     }, false);
 
     function testInit() {
@@ -25,16 +28,14 @@
         getCraftyModules();
     }
 
-    var pageHref = location.href;
-    pageHref = pageHref.replace(/\/\w+.(htm?|html)$/gi, '');
-
-
     function getCraftyModules() {
+
+
+        var pageHref = Crafty.setHref();
 
         // Loading from alternative repository
         Crafty.modules(pageHref, {
             'scripts/components/car': 'DEV',
-            'scripts/extends/player': 'DEV',
             'scripts/components/fonts': 'DEV',
             'scripts/components/enemycars': 'DEV',
             'scripts/components/keyboard': 'DEV',
@@ -59,12 +60,11 @@
 
         var req = new XMLHttpRequest();
         req.overrideMimeType("application/json");
-        req.open('GET', pageHref + '/config.json', true);
+        req.open('GET', Crafty._href + '/config.json', true);
         req.onload = function () {
 
             if (req.readyState === 4 && req.status == 200) {
                 var respJson = JSON.parse(req.responseText);
-                console.log(respJson);
 
                 gameInit();
 
@@ -87,13 +87,26 @@
 
     function gameInit() {
         Crafty.init(320, 480, 'container');
+        Crafty.canvas.init();
+        Crafty.pixelart(true);
+        Crafty.viewport.mouselook(true);
+
         Crafty.enterScene("loading");
 
         Crafty.bind('SceneChange', function () {
+
             Crafty('DebugMsg').destroy();
             Crafty.e('DebugMsg');
         });
     }
+
+
+    /*POINTER LOCK*/
+
+    document.addEventListener('pointerlockerror', errorCallback, false);
+    document.addEventListener('mozpointerlockerror', errorCallback, false);
+    document.addEventListener('webkitpointerlockerror', errorCallback, false);
+
 
     /*
      window.video = Crafty.e('Video').attr({

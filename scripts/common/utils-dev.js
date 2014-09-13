@@ -30,14 +30,14 @@
                 ', data.tiltFB : ' + Math.round(data.tiltFB) +
                 ', data.dir : ' + Math.round(data.dir) +
                 ', data.motUD : ' + data.motUD + '');
-
-            if (Crafty('Car').setDirectionW) {
-                Crafty('Car').setDirectionW(data.dir);
+            /*
+             if (Crafty('Car').setDirectionW) {
+             Crafty('Car').setDirectionW(data.dir);
             }
 
             if (Crafty('Car').setDirectionS) {
                 Crafty('Car').setDirectionS(data.tiltFB);
-            }
+             }*/
         });
     }
 

@@ -1,4 +1,4 @@
-(function () {
+(function (Crafty) {
 
     Crafty.c('Points', {
         _score: 0,
@@ -12,16 +12,18 @@
                 .attr({
                     x: 20,
                     y: 20,
-                    w: 100,
+                    w: Crafty.viewport.width,
                     h: 20,
-                    points: 0
+                    z: 99
                 })
                 .bind('EnterFrame', function () {
+                    this._score++;
 
-                    this.text('Points' + this._score++);
+                    this.text('Points ' + this.getPoints());
                 })
-                .text("0 Points");
+                .text('0 Points')
+            ;
         }
     });
 
-}());
+}(Crafty));

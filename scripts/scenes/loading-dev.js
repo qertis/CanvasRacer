@@ -24,6 +24,7 @@
                 , 'images/textures/m_g_asphalt03.jpg'
                 , 'images/textures/asphalt_texture.png'
                 , 'images/textures/tex_trava.bmp'
+                , 'images/sprites/objects/trafficlights_shlp.png'
             ],
 
             function () {
@@ -36,54 +37,72 @@
                     asphalt: [0, 0, 100, 100]
                 });
 
+                Crafty.sprite('images/sprites/objects/trafficlights_shlp.png', {
+                    trafficlight: [0, 0, 15, 100]
+                });
+
+
+                Crafty.c('LevelSpeed', {
+                    speed: 4
+                });
+
                 Crafty.c('Grass', {
                     init: function () {
                         var y = -256;
 
-                        this.requires("2D, Canvas, Image")
+                        this
+                            .requires("2D, Canvas, Image, LevelSpeed")
                             .attr({
                                 w: Crafty.viewport.width,
                                 h: Crafty.viewport.height * 2
                             })
                             .image("images/textures/tex_trava.bmp", "repeat")
                             .bind('EnterFrame', function () {
-                                this.y += 4;
+                                this.y += this.speed;
 
                                 if (this.y > 0)
                                     this.y = y;
                             })
+                        ;
                     }
                 });
 
                 Crafty.c('Road', {
                     init: function () {
 
-                        var padding = 40;
-                        var y = -256;
+                        var padding = 50,
+                            y = -256;
 
-                        this.requires("2D, Canvas, Image")
+                        this.requires("2D, Canvas, Image, LevelSpeed")
                             .attr({
                                 x: padding,
                                 w: Crafty.viewport.width - padding * 2,
                                 h: Crafty.viewport.height * 2
                             })
                             .image("images/textures/m_g_asphalt03.jpg", "repeat")
-                            .bind('EnterFrame', function () {
-                                this.y += 4;
+                            .bind('EnterFrame', function (obj) {
+                                this.y += this.speed;
 
                                 if (this.y > 0)
                                     this.y = y;
-                            })
 
+                                //TODO увеличить
+                                //каждые 50 метров создаем дорожный столб
+                                if (obj.frame % 500 === 0) {
+                                    Crafty.e('TrafficLight')
+                                        .setRandomPos()
+                                }
+
+                            })
 
                     }
                 });
 
                 Crafty.c('Asphalt', {
-                    speed: 4,
                     defaultY: -340,
                     init: function () {
-                        this.requires('2D, Canvas, asphalt')
+                        this
+                            .requires('2D, Canvas, asphalt, LevelSpeed')
                             .attr({
                                 w: 100,
                                 h: 100,

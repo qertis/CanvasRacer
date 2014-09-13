@@ -151,6 +151,12 @@
                 //Crafty.fullscreen.on();//todo вернуть в продакшене
 
                 Crafty('InputChangeEvents').change();
+
+
+                var havePointerLock = 'pointerLockElement' in document ||
+                    'mozPointerLockElement' in document ||
+                    'webkitPointerLockElement' in document;
+                Crafty.stage.elem.requestPointerLock()
             })
             .setText('Start')
         ;
@@ -158,29 +164,30 @@
         Crafty.e("InputChangeEvents");
 
         Crafty.c('Smoke', {
-            init: function () {
-
+            _pos: null,
+            _obj: null,
+            createParticles: function () {
                 var options = {
-                    maxParticles: 20,
+                    maxParticles: 14,
                     size: 8,
 //			sizeRandom: 4,
-                    speed: 1,
+                    speed: 0,
                     //	speedRandom: 1.2,
                     // Lifespan in frames
-                    lifeSpan: 9,
+                    lifeSpan: 2,
                     //		lifeSpanRandom: 7,
                     // Angle is calculated clockwise: 12pm is 0deg, 3pm is 90deg etc.
                     angle: 180,
                     //	angleRandom: 34,
-                    startColour: [204, 204, 204, 1],
+                    startColour: [115, 115, 115, 0.5],
                     //startColourRandom: ,
-                    endColour: [115, 115, 115, 0],
+//                    endColour: [115, 115, 115, 0],
                     //endColourRandom: [240, 240, 240, 0],
                     //	sharpnessRandom: 10,
                     // Random spread from origin
-                    //spread: 10,
+                    spread: 10,
                     // How many frames should this last
-                    duration: -1,
+                    duration: 1,
                     // Will draw squares instead of circle gradients
                     fastMode: false,
                     gravity: { x: 0, y: 0 },
@@ -188,13 +195,34 @@
                     jitter: 1
                 };
 
-                this.requires('2D,Canvas,Particles')
-                    .attr({ x: 100, y: 300    }).particles(options);
+                this.particles(options);
+            },
+            pinCar: function (car) {
+                this._obj = car;
+
+                this.attr({
+                    x: this._obj.x + 40,
+                    y: this._obj.y + this._pos.y,
+                    rotation: this._obj.rotation
+                });
+            },
+            init: function () {
+                this.requires('2D, Canvas, Particles');
+                this.bind('ParticleEnd', function () {
+
+                    console.log('asd')
+
+
+                    //	this.createParticles();
+                });
+
+                this.createParticles();
             }
         });
 
-        /*FIXME test*/
-        Crafty.enterScene('level')
+        /*FIXME test
+         Crafty.enterScene('level')
+         */
     });
 
 }(Crafty));

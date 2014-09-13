@@ -15,16 +15,34 @@
 
         });
 
-
         /*TEST*/
-        Crafty.e("Car")
+        Crafty.e('PlayerCar')
             .attr({
-                x: 100,
-                y: Crafty.viewport._height - 60,
+                //x: 200,
+                x: 300,//test
+                y: 250,
                 w: 64,
                 h: 141,
                 z: 999
-            });
+            })
+            .origin('top center')
+            .createSmoke()
+        ;
+        /**/
+
+
+        var firstScale = 10;
+        Crafty.e("Delay").delay(function () {
+            Crafty.viewport.scale(--firstScale);
+
+            if (Crafty.viewport._scale === 1) {
+                this.destroy();
+            }
+
+        }, 50, -1);
+
+
+        console.log('ffff');
 
         Crafty.e("Points")
     }
