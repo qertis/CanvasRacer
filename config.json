@@ -1,5 +1,18 @@
 {
+    "name": "project name",
     "product": "canvas racer",
     "production": false,
-    "version": 0.001
+    "version": "0.001",
+    "description": "'game' super",
+    "app": {
+        "launch": {
+            "local_path": "index.html",
+            "container": "divid"
+        }
+    },
+    "icons": {
+        "16": ".png",
+        "128": ".png"
+    }
+
 }

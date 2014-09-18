@@ -2,8 +2,15 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Canvas Racer</title>
+
+    <meta name="description" content="My App">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.0.min.js"></script>
+
     <link rel='stylesheet' type='text/css' href='styles/style.css'>
 </head>
 <body>
@@ -14,5 +21,30 @@
 <script src="scripts/extends/player.js"></script>
 
 <script src="scripts/init.js"></script>
+
+
+<script type="text/javascript">
+
+    window.addEventListener('load', function () {
+        console.log('lol')
+
+//    "APPLICATION_ID", "JAVASCRIPT_KEY"
+        Parse.initialize("bn9Mvt4trLBqOE9zu6OisSdEvnd7m7o9i2Eqzs7k", "eCVDbPlzgDF6xDNnCduQvwSZB2iQzfzqNMXkuyPT");
+
+        var TestObject = Parse.Object.extend("UserList");
+        var testObject = new TestObject();
+
+        testObject.save({foo: "bar"}, {
+            success: function (object) {
+                $(".success").show();
+            },
+            error: function (model, error) {
+                $(".error").show();
+            }
+        });
+    });
+
+</script>
+
 </body>
 </html>

@@ -206,7 +206,7 @@
 
 
                     //center player car
-                    Crafty.viewport.centerOn(this, 1000);
+//                    Crafty.viewport.centerOn(this, 1000);
 
 
                     /*увеличиваем скорость каждые 10 тиков*/

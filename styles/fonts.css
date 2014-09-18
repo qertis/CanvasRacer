@@ -1,1 +1,13 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic&subset=latin,cyrillic);
+
+@font-face {
+    font-family: 'Lobster';
+    font-style: italic;
+    font-weight: normal;
+    src: url('../ttf/Lobster.ttf') format("TrueType");
+}
+
+@font-face {
+    font-family: 'ReenieBeanie';
+    src: url('../ttf/ReenieBeanie.ttf') format("TrueType");
+}
