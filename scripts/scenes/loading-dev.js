@@ -89,8 +89,11 @@
                                 //TODO увеличить
                                 //каждые 50 метров создаем дорожный столб
                                 if (obj.frame % 500 === 0) {
-                                    Crafty.e('TrafficLight')
-                                        .setRandomPos()
+
+                                    //TODO добавить в продакшене
+//                                    Crafty.e('TrafficLight')
+//                                        .setRandomPos()
+                                    ;
                                 }
 
                             })

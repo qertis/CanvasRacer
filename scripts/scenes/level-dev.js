@@ -29,11 +29,13 @@
             .createSmoke()
         ;
         /**/
+        Crafty.e("Points");
 
 
         var firstScale = 10;
         Crafty.e("Delay").delay(function () {
-            Crafty.viewport.scale(--firstScale);
+            firstScale -= 1;
+            Crafty.viewport.scale(firstScale);
 
             if (Crafty.viewport._scale === 1) {
                 this.destroy();
@@ -41,10 +43,11 @@
 
         }, 50, -1);
 
+//        ;
+
 
         console.log('ffff');
 
-        Crafty.e("Points")
     }
 
     function levelOut() {

@@ -220,9 +220,9 @@
             }
         });
 
-        /*FIXME test
-         Crafty.enterScene('level')
-         */
+        /*FIXME test*/
+        Crafty.enterScene('level')
+        /**/
     });
 
 }(Crafty));
