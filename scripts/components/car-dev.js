@@ -159,8 +159,7 @@
                     this.trigger('Crash');
                 })
                 .one('Crash', function () {
-
-                    Crafty.player.points = Crafty('Points').getPoints();
+                    Crafty.player.setPoints(Crafty('Points').getPoints());
                     Crafty.enterScene('game-over');
 
                     Crafty.e('Timer').setTimeCallback(2, function () {
@@ -293,14 +292,14 @@
 
                         if (distance < 100) {
 //                            debugger;
-                            console.warn(distance)
+                            //console.warn(distance)
 
                             if (this.movingBottom) {
 //                                this.speed += 0.2;
                             } else {
 //                                this.speed -= 0.2;
                             }
-                            prevCar.xxx = true;
+                            //  prevCar.xxx = true;
                         }
                     }
                 });

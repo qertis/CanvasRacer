@@ -4,6 +4,8 @@
         Crafty.background('#000 url(images/backgrounds/game_over.PNG) no-repeat center center');
         Crafty.stage.elem.style.backgroundSize = 'contain';
 
+        getUserRecords(5);
+
         Crafty
             .e('2D, DOM, Text')
             .attr({

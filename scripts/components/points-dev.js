@@ -14,7 +14,7 @@
                     y: 20,
                     w: Crafty.viewport.width,
                     h: 20,
-                    z: 99
+                    z: 999
                 })
                 .bind('EnterFrame', function () {
                     this._score++;

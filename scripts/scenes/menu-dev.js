@@ -112,7 +112,10 @@
                                 break;
                         }
 
-                        Crafty.player.name = text;
+
+                        console.log('ЗДЕСЬ ВЫЗЫВАТЬ ПАРС!')
+
+                        Crafty.player.setUserName(text);
                     })
 
             },

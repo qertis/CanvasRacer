@@ -17,7 +17,21 @@
         },
         player: {
             name: 'Player One',
-            points: 0
+            points: 0,
+            geo: null,
+            setGeoPoint: function () {
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    Crafty.player.geo = new Parse.GeoPoint(pos.coords);
+                }, function (err) {
+                    console.error('cannot get current position' + err)
+                });
+            },
+            setPoints: function (pts) {
+                Crafty.player.points = pts;
+            },
+            setUserName: function (name) {
+                Crafty.player.name = name;
+            }
         }
     });
 
@@ -58,6 +72,15 @@
                 }
             }
         }
+    });
+
+
+    Crafty.extend({
+
+        parse: function () {
+
+        }
+
     });
 
 }(Crafty));
