@@ -1,148 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
 
     <title>Canvas Racer</title>
 
-    <meta name="description" content="My App">
+    <meta name="description" content="CanvasRacer">
+    <meta name="keywords" content="HTML5,CSS3,JavaScript,Crafty,Parse">
+    <meta name="author" content="qertis">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
-    <script src="http://www.parsecdn.com/js/parse-1.3.0.min.js"></script>
-
-    <link rel='stylesheet' type='text/css' href='styles/style.css'>
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 <body>
+    <main id="canvasRacer"></main>
 
-<div id="container" class="center"></div>
+    <!-- change to *.min in prod -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/crafty/dist/crafty.js"></script>
+    <script src="bower_components/parse-js-sdk/lib/parse.js"></script>
 
-<script src="scripts/crafty/crafty.js"></script>
-<script src="scripts/extends/player.js"></script>
-
-<script src="scripts/init.js"></script>
-
-
-<script type="text/javascript">
-
-    var user;//TODO переместить в локальную
-    window.addEventListener('load', function () {
-//    "APPLICATION_ID", "JAVASCRIPT_KEY"
-        Parse.initialize("bn9Mvt4trLBqOE9zu6OisSdEvnd7m7o9i2Eqzs7k", "eCVDbPlzgDF6xDNnCduQvwSZB2iQzfzqNMXkuyPT");
-        Parse.User.allowCustomUserClass(false);//запрещаем делать кастомные классы
-
-        user = Parse.User.current();
-        if (user === null || user.isNew()) {
-            var name = 'name',
-                    pass = 'passs';
-
-            var user = newParseUser(name, pass);
-
-            loginUser(name, pass, function () {
-                createNewUser(name, pass, function () {
-                    console.log('такой пользователь уже существует!')
-                })
-            });
-
-        } else {
-            console.log('current user')
-            initLevel();
-        }
-
-        function newParseUser(name, pass) {
-            var user = new Parse.User();
-            user.setUsername(name);
-            user.setPassword(pass);
-
-            return user;
-        }
-
-        function loginUser(name, pass, cbFalse) {
-            /*
-             пытаемся залогиниться
-             если не получается - создаем нового юзверя
-             если не получается - выдаем ошибку
-             */
-            return user.logIn(name, pass)
-                    .fail(function () {
-                        cbFalse();
-                    })
-                    .done(function () {
-                        console.log('User logined!');
-                        initLevel();
-                    });
-        }
-
-        function createNewUser(name, pass, cbFalse) {
-            return user.signUp(name, pass)
-                    .fail(function () {
-                        cbFalse();
-                    })
-                    .done(function () {
-                        console.log('User created!');
-                        initLevel();
-                    });
-        }
-
-        function initLevel() {
-            console.log('start level')
-        }
-
-    });
-
-
-    //    getUserRecords(5);//EXAMPLE
-    function getUserRecords(limit) {
-        var UserRecords = Parse.Object.extend("UserRecords");
-        var userRecords = new UserRecords();
-
-        var query = new Parse.Query(UserRecords);
-        query.limit(limit);//пять результатов
-//        query.ascending("points");
-// Sorts the results in descending order by the score field
-        query.descending("points");
-        query.find({
-            success: function (results) {
-                results.forEach(function (elem) {
-
-                    var geo = elem.get('geo');
-                    var date = elem.get('date');
-                    var points = elem.get('points');
-
-                    getCity(geo);
-
-                    console.log(geo);
-                    console.log(date);
-                    console.log(points);
-
-                });
-            }
-        });
-    }
-
-
-    //yandex geocoding
-    function getCity(geoPoint) {
-        if (!geoPoint || !geoPoint.latitude || !geoPoint.longitude) return;
-
-        var latitude = geoPoint.latitude;
-        var longitude = geoPoint.longitude;
-
-        var url = 'http://geocode-maps.yandex.ru/1.x/?format=json&geocode=' + longitude + ',' + latitude;
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.onload = function (e) {
-            var res = JSON.parse(this.response);
-            var geoObject = res.response.GeoObjectCollection.featureMember[0].GeoObject;
-            var description = geoObject.description || geoObject.name;
-
-            console.log(description)
-        };
-        xhr.send();
-    }
-
-</script>
-
-</body>
+    <script src="app/main.js"></script>
+ </body>
 </html>
