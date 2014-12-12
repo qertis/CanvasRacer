@@ -1,0 +1,23 @@
+/* style reset */
+@import url('reset.css');
+/*@import url('fonts.css');*/
+
+/* device specific */
+/*@import url('ipad.css');*/
+/*@import url('iphone.css');*/
+/*@import url('screen-hd.css');*/
+/*@import url('screen-fullhd.css');*/
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    /*background: black;*/
+}
+
+#container {
+    /*position: relative;*/
+    /*margin: 0 auto;*/
+}
