@@ -2,74 +2,73 @@
 
 	Crafty.defineScene('loading', levelInit, levelOut);
 
+	//--------------------------------------------------------------
+
+	Crafty.paths({
+		images: "content/images/",
+		audio: "content/audio/"
+	});
+
+	var assetsObj = {
+		"audio": {
+			"game_over": ["game_over.wav", "game_over.mp3", "game_over.ogg"],
+			"music": "music.ogg",
+			"power_up": "power_up.mp3",
+			"upgrade": "upgrade.wav"
+		},
+		"images": ["game_over.png", "menu.jpg", "controls/dpad.png", "road_texture.jpg"],
+		"sprites": {
+			"controls/buttons.png": {
+				"tile": 48,
+				"tileh": 48,
+				"map": {
+					"pause": [0, 0],
+					"soundOn": [0, 1],
+					"soundOff": [0, 2],
+					"play": [0, 3],
+					"share": [0, 4]
+				}
+			},
+			"vehicles.png": {
+				"tile": 128,
+				"tileh": 300,
+				"map": {
+					playerCar: [0, 0], car1: [1, 0], car2: [2, 0], car3: [3, 0], car4: [4, 0]
+				}
+			}
+		}
+	};
+
+	function loadAssets() {
+// preload assets
+		Crafty.load(assetsObj,
+			function () {
+				Crafty.scene('level')
+			},
+			function (e) { //progress
+				console.log(e);
+				//Crafty('Loading').text('progress: ' + e.percent)
+			},
+			function (e) { //uh oh, error loading
+				console.error('error asset')
+			}
+		);
+	}
+
 	//---------------------------------------------------------------
 
 	function levelInit() {
+		console.log('xx')
 
+		Crafty.background('#000000');
 
-/*
+		Crafty.e('Text, ItalicFont')
+			.attr({x: 0, y: 300})
+			.text('Loading...')
+			.textFont({size: '20px'})
+			.textColor('#FFFFFF');
 
-				Crafty.c('LevelSpeed', {
-					speed: 4
-				});
-				Crafty.c('Grass', {
-					init: function () {
-						var y = -256;
-
-						this
-							.requires("2D, Canvas, Image, LevelSpeed")
-							.attr({
-								w: Crafty.viewport.width,
-								h: Crafty.viewport.height * 2
-							})
-							.image("images/textures/tex_trava.bmp", "repeat")
-							.bind('EnterFrame', function () {
-								this.y += this.speed;
-
-								if (this.y > 0)
-									this.y = y;
-							})
-						;
-					}
-				});
-
-				Crafty.c('Road', {
-					init: function () {
-
-						var padding = 50,
-							y = -256;
-
-						this.requires("2D, Canvas, Image, LevelSpeed")
-							.attr({
-								x: padding,
-								w: Crafty.viewport.width - padding * 2,
-								h: Crafty.viewport.height * 2
-							})
-							.image("images/textures/m_g_asphalt03.jpg", "repeat")
-							.bind('EnterFrame', function (obj) {
-								this.y += this.speed;
-
-								if (this.y > 0)
-									this.y = y;
-
-								//TODO увеличить
-								//каждые 50 метров создаем дорожный столб
-								if (obj.frame % 500 === 0) {
-
-									//TODO добавить в продакшене
-//                                    Crafty.e('TrafficLight')
-//                                        .setRandomPos()
-									;
-								}
-
-							})
-
-					}
-				});
-
-				*/
-
-
+		loadAssets();
 	}
 
 	function levelOut() {
@@ -77,9 +76,3 @@
 	}
 
 }(Crafty));
-
-
-
-/*
-	*/
-

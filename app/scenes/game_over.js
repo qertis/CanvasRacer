@@ -1,5 +1,7 @@
 (function (Crafty) {
 
+    Crafty.defineScene('game-over', levelInit, levelOut);
+
     function levelInit() {
         Crafty.background('#000 url(content/images/game_over.png) no-repeat center center');
         Crafty.stage.elem.style.backgroundSize = 'contain';
@@ -84,6 +86,6 @@
 
     }
 
-    Crafty.defineScene('game-over', levelInit, levelOut);
+
 
 }(Crafty));

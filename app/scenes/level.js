@@ -1,4 +1,5 @@
 (function (Crafty) {
+	Crafty.defineScene('level', levelInit, levelOut);
 
 	function levelInit() {
 
@@ -13,15 +14,6 @@
 
 		Crafty.e('Track')
 
-		Crafty.c('Pause', {
-			init: function () {
-				this.requires('2D, Canvas, pause')
-				this.attr({
-					z: 999
-				})
-			}
-		});
-
 		Crafty.e('Pause');
 
 		Crafty.e('EnemyCar')
@@ -35,31 +27,11 @@
 
 		Crafty.e("Points");
 		Crafty.e("Delay");
-		/*
 
-		 var firstScale = 10;
-		 .delay(function () {
-		 firstScale -= 1;
-		 Crafty.viewport.scale(firstScale);
-
-		 if (Crafty.viewport._scale === 1) {
-		 this.destroy();
-		 }
-
-		 }, 50, -1);
-
-		 //        ;
-
-
-		 console.log('ffff');
-		 */
 	}
 
 	function levelOut() {
 		console.log('level out')
 	}
-
-
-	Crafty.defineScene('level', levelInit, levelOut);
 
 }(Crafty));
