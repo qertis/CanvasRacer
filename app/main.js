@@ -19,8 +19,9 @@
 				/* fonts */
 				'app/components/fonts/default.js',
 				'app/components/fonts/bold.js',
-				'app/components/fonts/i' +
-				'talic.js',
+				'app/components/fonts/italic.js',
+				/* trafic objects */
+				'app/components/traffic/track.js',
 				/* points */
 				'app/components/points/points.js',
 				/* video */
@@ -76,17 +77,17 @@
 		Crafty.init(360, 640, 'canvasRacer');
 		Crafty.canvas.init();
 		Crafty.pixelart(true);
-		Crafty.viewport.mouselook(true);
+		//Crafty.viewport.mouselook(true);
 
 		Crafty.background('#000000');
 
 		var loadingText = Crafty.e('Text, ItalicFont')
 			.attr({x: 0, y: 300})
 			.text('Loading...')
-			.textFont({ size: '20px' })
+			.textFont({size: '20px'})
 			.textColor('#FFFFFF');
 
-		Crafty.viewport.centerOn(loadingText, 0);
+		//Crafty.viewport.centerOn(loadingText, 0);
 
 
 		/*TEST
@@ -112,42 +113,30 @@
 				"power_up": "power_up.mp3",
 				"upgrade": "upgrade.wav"
 			},
-			"images": ["game_over.png", "menu.jpg"],
+			"images": ["game_over.png", "menu.jpg", "controls/dpad.png", "road_texture.jpg"],
 			"sprites": {
 				"controls/buttons.png": {
-					"tile": 50,
-					"tileh": 40,
-					"map": {"ladybug": [0, 0], "lazycat": [0, 1], "ferociousdog": [0, 2]},
-					"paddingX": 5,
-					"paddingY": 5,
-					"paddingAroundBorder": 10
+					"tile": 48,
+					"tileh": 48,
+					"map": {
+						"pause": [0, 0],
+						"soundOn": [0, 1],
+						"soundOff": [0, 2],
+						"play": [0, 3],
+						"share": [0, 4]
+					},
+					//"paddingX": 5,
+					//"paddingY": 5,
+					//"paddingAroundBorder": 10
 				},
 				"vehicles.png": {
-					"tile": 130,
+					"tile": 128,
 					"tileh": 300,
 					"map": {
 						playerCar: [0, 0], car1: [1, 0], car2: [2, 0], car3: [3, 0], car4: [4, 0]
 					}
-				},
-				"asphalt.png": {
-					tile: 100,
-					tileh: 100,
-					map: {
-						asphalt: [0,0]
-					}
-				},
-				"trafficlights_shlp.png": {
-					"tile": 130,
-					"tileh": 300,
-					"map": {
-						trafficlights_shlp: [0, 0]
-					}
 				}
-				/*
-				Crafty.sprite("images/textures/asphalt_texture.png", {
-					asphalt: [0, 0, 100, 100]
-				});*/
-			},
+			}
 		};
 
 // preload assets
@@ -155,13 +144,14 @@
 			function () {
 				console.log('loaded');
 
-				Crafty.scene('loading')
+				Crafty.scene('level')
 			},
 			function (e) { //progress
 				console.log(e);
 				//Crafty('Loading').text('progress: ' + e.percent)
 			},
 			function (e) { //uh oh, error loading
+				console.error('error asset')
 			}
 		);
 

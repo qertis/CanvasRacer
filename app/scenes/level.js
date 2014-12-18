@@ -1,60 +1,65 @@
 (function (Crafty) {
 
-    function levelInit() {
+	function levelInit() {
 
-        Crafty.background('rgb(127,127,127)');
+		Crafty.background('rgb(127,127,127)');
 
-        Crafty.e('Grass');
+		Crafty.e('PlayerCar').attr({
+			x: 200,
+			y: 300
+		})
+			.addComponent('WiredHitBox')
+			.debugStroke("white")
 
-        Crafty.e('Asphalt').attr({ y: -200 });
-        Crafty.e('Asphalt').attr({ y: 0 });
-        Crafty.e('Asphalt').attr({ y: 200 });
-        Crafty.e('Asphalt').attr({ y: 400 });
+		Crafty.e('Track')
 
-        Crafty.e('Road').attr({
+		Crafty.c('Pause', {
+			init: function () {
+				this.requires('2D, Canvas, pause')
+				this.attr({
+					z: 999
+				})
+			}
+		});
 
-        });
+		Crafty.e('Pause');
 
-        /*TEST*/
-        Crafty.e('PlayerCar')
-            .attr({
-                //x: 200,
-                x: 300,//test
-                y: 250,
-                w: 64,
-                h: 141,
-                z: 999
-            })
-            .origin('top center')
-            .createSmoke()
-        ;
-        /**/
-        Crafty.e("Points");
+		Crafty.e('EnemyCar')
+			/* Debug */
+			.addComponent('WiredHitBox')
+			.debugStroke('white')
+			.attr({
+				x: 0,
+				y: 200
+			});
 
+		Crafty.e("Points");
+		Crafty.e("Delay");
+		/*
 
-        var firstScale = 10;
-        Crafty.e("Delay").delay(function () {
-            firstScale -= 1;
-            Crafty.viewport.scale(firstScale);
+		 var firstScale = 10;
+		 .delay(function () {
+		 firstScale -= 1;
+		 Crafty.viewport.scale(firstScale);
 
-            if (Crafty.viewport._scale === 1) {
-                this.destroy();
-            }
+		 if (Crafty.viewport._scale === 1) {
+		 this.destroy();
+		 }
 
-        }, 50, -1);
+		 }, 50, -1);
 
-//        ;
-
-
-        console.log('ffff');
-
-    }
-
-    function levelOut() {
-        console.log('level out')
-    }
+		 //        ;
 
 
-    Crafty.defineScene('level', levelInit, levelOut);
+		 console.log('ffff');
+		 */
+	}
+
+	function levelOut() {
+		console.log('level out')
+	}
+
+
+	Crafty.defineScene('level', levelInit, levelOut);
 
 }(Crafty));

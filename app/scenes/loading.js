@@ -5,13 +5,7 @@
 	//---------------------------------------------------------------
 
 	function levelInit() {
-		Crafty.background('#ffffff');
 
-		Crafty.e('2D, Canvas, playerCar');
-
-		Crafty.e('2D, Canvas, asphalt')
-
-		Crafty.e('2D, Canvas, trafficlights_shlp')
 
 /*
 
@@ -73,26 +67,7 @@
 					}
 				});
 
-				Crafty.c('Asphalt', {
-					defaultY: -340,
-					init: function () {
-						this
-							.requires('2D, Canvas, asphalt, LevelSpeed')
-							.attr({
-								w: 100,
-								h: 100,
-								x: Crafty.viewport.width / 2,
-								z: 1
-							})
-							.bind('EnterFrame', function () {
-								this.y += this.speed;
-
-								if (this.y > Crafty.viewport.height)
-									this.y = this.defaultY;
-							})
-						;
-					}
-				});*/
+				*/
 
 
 	}

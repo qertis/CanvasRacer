@@ -3,6 +3,9 @@
     Crafty.c('Points', {
         _score: 0,
 
+        stop: function() {
+            this.unbind('EnterFrame')
+        },
         getPoints: function () {
             return this._score;
         },
@@ -10,9 +13,9 @@
             this
                 .requires('BoldFont')
                 .attr({
-                    x: 20,
+                    x: Crafty.viewport.width - 150,
                     y: 20,
-                    w: Crafty.viewport.width,
+                    w: 150,
                     h: 20,
                     z: 999
                 })
