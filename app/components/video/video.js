@@ -1,95 +1,111 @@
-(function () {
+(function (Crafty) {
 
+	Crafty.c('Video', {
+		poster: '',
+		videos: {},
+		once: false,
+		videoElem: null,
 
-// once {boolean} не обязателен.  Если false|undefined - видео проигрывается всегда.
-    Crafty.c('Video', {
-        poster: '',
-        videos: {},
-        once: false,
-        videoElem: null,
+		init: function () {
+			this.videoElem = document.createElement('video');
 
-        init: function () {
-            Crafty('FullVideo').each(function () {
-                this.destroyVideo();
-            });
-        },
+			Crafty('FullVideo').each(function () {
+				this.destroyVideo();
+			});
+		},
 
-        destroyVideo: function () {
-            if (this.videoElem) {
-                this.videoElem.remove();
-                this.destroy();
-            }
-        },
+		destroyVideo: function () {
+			if (this.videoElem) {
+				this.videoElem.remove();
+				this.destroy();
+			}
+		},
 
-        createVideo: function () {
-            var self = this;
+		setFullScreenStyle: function () {
 
-            function appendChild() {
-                for (var source in self.videos) {
-                    var srcElem = document.createElement('source');
-                    srcElem.src = self.videos[source];
+			this.videoElem.style.position = 'fixed';
+			this.videoElem.style.right = 0;
+			this.videoElem.style.bottom = 0;
+			this.videoElem.style.minWidth = '100%';
+			this.videoElem.style.minHeight = '100%';
+			this.videoElem.style.width = 'auto';
+			this.videoElem.style.height = 'auto';
+			this.videoElem.style.zIndex = -100;
+			this.videoElem.style.backgroundSize = 'cover';
 
-                    srcElem.type = 'video/' + source;
-                    self.videoElem.appendChild(srcElem);
-                }
-            }
+			if (!!this.poster) {
+				this.videoElem.style.background = 'url(' + this.poster + ') no-repeat';
+			}
 
-            function setAttr() {
-                if (self.once === true) {
+			Crafty.stage.elem.appendChild(this.videoElem);
+		},
 
-                } else {
-                    self.videoElem.loop = true;
-                }
+		setInnerScreenStyle: function () {
 
-                self.videoElem.autoplay = true;
+			this.videoElem.style.position = 'absolute';
+			this.videoElem.style.left = 0;
+			this.videoElem.style.top = 0;
+			this.videoElem.style.minWidth = '100%';
+			this.videoElem.style.minHeight = '100%';
+			this.videoElem.style.width = 'auto'//Crafty.stage.elem.offsetWidth + 'px';
+			this.videoElem.style.height = Crafty.stage.elem.offsetHeight + 'px';
 
-                if (!!self.poster) {
-                    self.videoElem.poster = self.poster;
-                }
-            }
+			this.videoElem.style.zIndex = -100;
+			this.videoElem.style.backgroundSize = 'cover';
 
-            function setInnerScreenStyle() {
-//TODO: дописать возможность установки внутреннего видео внутри игрового контейнера
-            }
+			if (!!this.poster) {
+				this.videoElem.style.background = 'url(' + this.poster + ') no-repeat';
+			}
 
-            function setFullScreenStyle() {
-                self.videoElem.style.position = 'fixed';
-                self.videoElem.style.right = 0;
-                self.videoElem.style.bottom = 0;
-                self.videoElem.style.minWidth = '100%';
-                self.videoElem.style.minHeight = '100%';
-                self.videoElem.style.width = 'auto';
-                self.videoElem.style.height = 'auto';
-                self.videoElem.style.zIndex = '-100';
-                self.videoElem.style.backgroundSize = 'cover';
+			Crafty.stage.inner.style.zIndex = 0;
+			Crafty.stage.inner.appendChild(this.videoElem);
+		},
 
-                if (!!self.poster) {
-                    self.videoElem.style.background = 'url(' + self.poster + ') no-repeat';
-                }
-            }
+		createVideo: function () {
+			var self = this;
 
-            function setEvents() {
-                self.videoElem.addEventListener('loadedmetadata', function () {
-                }, false);
+			function appendChild() {
+				for (var source in self.videos) {
+					var srcElem = document.createElement('source');
+					srcElem.src = self.videos[source];
 
-                self.videoElem.addEventListener('ended', function () {
-                    if (self.once === true) {
-                        self.destroyVideo();
-                    }
-                }, false);
-            }
+					srcElem.type = 'video/' + source;
+					self.videoElem.appendChild(srcElem);
+				}
+			}
 
-            self.videoElem = document.createElement('video');
+			function setAttr() {
+				if (self.once === true) {
 
-            appendChild();
-            setAttr();
-            setFullScreenStyle();
-            setEvents();
+				} else {
+					self.videoElem.loop = true;
+				}
 
-            document.body.appendChild(self.videoElem)
-        }
+				self.videoElem.autoplay = true;
 
+				if (!!self.poster) {
+					self.videoElem.poster = self.poster;
+				}
+			}
 
-    });
+			function setEvents() {
+				self.videoElem.addEventListener('loadedmetadata', function () {
+				}, false);
 
-}());
+				self.videoElem.addEventListener('ended', function () {
+					if (self.once === true) {
+						self.destroyVideo();
+					}
+				}, false);
+			}
+
+			appendChild();
+			setAttr();
+			setEvents();
+
+			return this;
+		}
+
+	});
+
+}(Crafty));

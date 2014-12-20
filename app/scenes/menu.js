@@ -5,9 +5,17 @@
 	function levelInit() {
 		Crafty.background("#000");
 
-		Crafty.e('2D, Canvas, Image')
-			.image('images/backgrounds/menu.jpg', 'no-repeat')
-		;
+		Crafty.e('Video').attr({
+			poster: 'content/images/menu.jpg',
+			videos: {
+				mp4: 'content/video/tunnel_animation.mp4'
+			},
+			once: false
+		})
+			.createVideo()
+			//.setFullScreenStyle();
+			.setInnerScreenStyle();
+
 
 		Crafty.e("2D, DOM, Text")
 			.attr({w: 100, h: 20, x: 50, y: 120})
@@ -26,13 +34,19 @@
 			.bind('Click', function () {
 				//Crafty.fullscreen.on();//todo вернуть в продакшене
 
-				Crafty('InputChangeEvents').change();
+				//Crafty('InputChangeEvents').change();
 
 
-				var havePointerLock = 'pointerLockElement' in document ||
-					'mozPointerLockElement' in document ||
-					'webkitPointerLockElement' in document;
-				Crafty.stage.elem.requestPointerLock()
+				//var havePointerLock = 'pointerLockElement' in document ||
+				//	'mozPointerLockElement' in document ||
+				//	'webkitPointerLockElement' in document;
+				//Crafty.stage.elem.requestPointerLock()
+
+
+				Crafty.enterScene('loading')
+
+				Crafty('Video').destroyVideo();
+
 			})
 			.setText('Start')
 		;

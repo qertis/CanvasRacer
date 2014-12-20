@@ -56,7 +56,10 @@
 				runGame();
 			})
 			.done(function () {
-				Crafty.enterScene('loading')
+				//Crafty.enterScene('loading')
+
+				Crafty.enterScene('menu')
+
 			});
 	}
 
@@ -81,6 +84,7 @@
 			.text('Loading Scenes...')
 			.textFont({size: '20px'})
 			.textColor('#FFFFFF');
+
 	}
 
 }(Crafty, jQuery));
