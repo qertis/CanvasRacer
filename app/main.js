@@ -27,6 +27,7 @@
 				'app/components/video/video.js',
 				/* buttons */
 				'app/components/buttons/pause.js',
+				'app/components/buttons/fullScreen.js',
 
 				/* extends */
 				'app/extends/geo.js',

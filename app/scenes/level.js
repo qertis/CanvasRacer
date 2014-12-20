@@ -16,6 +16,8 @@
 
 		Crafty.e('Pause');
 
+		Crafty.e('FullScreen');
+
 		Crafty.e('EnemyCar')
 			/* Debug */
 			.addComponent('WiredHitBox')
@@ -55,6 +57,9 @@
 
 	function levelOut() {
 		console.log('level out')
+
+
+
 	}
 
 }(Crafty));

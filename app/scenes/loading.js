@@ -23,10 +23,10 @@
 				"tileh": 48,
 				"map": {
 					"pause": [0, 0],
-					"soundOn": [0, 1],
-					"soundOff": [0, 2],
-					"play": [0, 3],
-					"share": [0, 4]
+					"soundOn": [1, 0],
+					"soundOff": [2, 0],
+					"play": [3, 0],
+					"share": [4, 0]
 				}
 			},
 			"vehicles.png": {

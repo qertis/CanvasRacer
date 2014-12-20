@@ -81,21 +81,37 @@
 					}
 
 				})
-				//.onHit('EnemyCar', this.crash)
+				.onHit('EnemyCar', this.crash)
 				.one('Crash', function () {
 					console.log('crash')
 					this.crashed = true;
 					this.disableControl();
-					Crafty('Points').stop();
 
 
-					Crafty('Delay').delay(function () {
+					//проверяем что разбилась именно наша машина
+					if(this.has('PlayerCar')) {
 
-						console.log('fail')
-						Crafty.enterScene('game-over');
 
-						//if (Crafty.viewport._scale === 1) {
-					}, 250);
+						Crafty('Points').stop();
+
+						Crafty('Delay').get(0).delay(function () {
+
+							//console.log('fail')
+
+							Crafty.player.setPoints(Crafty('Points').getPoints());
+							Crafty.player.setMyLocation();
+
+
+							Crafty.enterScene('game-over');
+
+							//if (Crafty.viewport._scale === 1) {
+						}, 250);
+
+
+					}
+
+					//this.destroy();
+
 				})
 		}
 	});

@@ -18,7 +18,7 @@
 				w: 100
 			})
 			.css('color', '#ccc')
-			.text('YOUR RECORD: ' + Crafty.player.points)
+			.text('YOUR RECORD: ' + Crafty.player.getPoints())
 		;
 		/*
 		 Crafty
@@ -37,7 +37,6 @@
 		 3. ...');*/
 
 		/* share facebook btn */
-
 		Crafty
 			.e('Button')
 			.attr({
@@ -86,6 +85,25 @@
 			})
 			.setText('Again')
 		;
+
+		/* Сохраняем данные.
+		* Почему так? Все просто - браузерам необходимо явно разрешение на запрос геолокации.*/
+		Crafty
+			.e('Button')
+			.attr({
+				x: 150,
+				y: 450,
+				w: 50,
+				h: 50
+			})
+			.bind('Click', function () {
+				Crafty.parse.saveUserRecords(Crafty.player.getPoints(), Crafty.player.getLocation());
+			})
+			.setText('Save My Record')
+		;
+
+
+
 
 		Crafty.parse.getUserRecords(5);
 	}
