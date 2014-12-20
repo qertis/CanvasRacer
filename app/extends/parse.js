@@ -1,97 +1,105 @@
+(function (Crafty) {
 
+	var APPLICATION_ID = "bn9Mvt4trLBqOE9zu6OisSdEvnd7m7o9i2Eqzs7k";
+	var JAVASCRIPT_KEY = "eCVDbPlzgDF6xDNnCduQvwSZB2iQzfzqNMXkuyPT";
 
+//yandex geocoding
+	function getCity(geoPoint) {
+		if (!geoPoint || !geoPoint.latitude || !geoPoint.longitude) return;
 
-var user;//TODO переместить в локальную
-window.addEventListener('load', function () {
-//    "APPLICATION_ID", "JAVASCRIPT_KEY"
-	Parse.initialize("bn9Mvt4trLBqOE9zu6OisSdEvnd7m7o9i2Eqzs7k", "eCVDbPlzgDF6xDNnCduQvwSZB2iQzfzqNMXkuyPT");
-	Parse.User.allowCustomUserClass(false);//запрещаем делать кастомные классы
+		var latitude = geoPoint.latitude;
+		var longitude = geoPoint.longitude;
 
-	user = Parse.User.current();
-	if (user === null || user.isNew()) {
-		var name = 'name',
-			pass = 'passs';
+		var url = 'http://geocode-maps.yandex.ru/1.x/?format=json&geocode=' + longitude + ',' + latitude;
 
-		var user = newParseUser(name, pass);
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = function (e) {
+			var res = JSON.parse(this.response);
+			var geoObject = res.response.GeoObjectCollection.featureMember[0].GeoObject;
+			var description = geoObject.description || geoObject.name;
 
-		loginUser(name, pass, function () {
-			createNewUser(name, pass, function () {
-				console.log('такой пользователь уже существует!')
-			})
-		});
-
-	} else {
-		console.log('current user')
-		initLevel();
+			console.log(description)
+		};
+		xhr.send();
 	}
 
-	function newParseUser(name, pass) {
-		var user = new Parse.User();
-		user.setUsername(name);
-		user.setPassword(pass);
 
-		return user;
-	}
+	/*
+	 var UserRecords = Parse.Object.extend("UserRecords");
+	 var query = new Parse.Query(UserRecords);
+	 query.get("8jhiC79F5I", {
+	 success: function(gameScore) {
+	 // The object was retrieved successfully.
+	 console.log(gameScore)
+	 },
+	 error: function(object, error) {
+	 // The object was not retrieved successfully.
+	 // error is a Parse.Error with an error code and message.
+	 alert('error')
+	 }
+	 });*/
 
-	function loginUser(name, pass, cbFalse) {
-		/*
-		 пытаемся залогиниться
-		 если не получается - создаем нового юзверя
-		 если не получается - выдаем ошибку
-		 */
-		return user.logIn(name, pass)
-			.fail(function () {
-				cbFalse();
-			})
-			.done(function () {
-				console.log('User logined!');
-				initLevel();
-			});
-	}
+	Crafty.extend({
+		parse: {
+			initialize: function () {
+				Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
+			},
+			user: function () {
+				Parse.User.allowCustomUserClass(false);//запрещаем делать кастомные классы
+			},
+			saveUserRecords: function (points, latLng) {
+				var UserRecords = Parse.Object.extend("UserRecords");
+				var userRecords = new UserRecords();
 
-	function createNewUser(name, pass, cbFalse) {
-		return user.signUp(name, pass)
-			.fail(function () {
-				cbFalse();
-			})
-			.done(function () {
-				console.log('User created!');
-				initLevel();
-			});
-	}
+				userRecords.set("points", points);
 
-	function initLevel() {
-		console.log('start level')
-	}
+				var geoPoint = new Parse.GeoPoint(latLng.lat, latLng.lng);
+				userRecords.set("location", geoPoint);
 
-});
+				userRecords.save(null, {
+					success: function (userRecord) {
+						// Execute any logic that should take place after the object is saved.
+						alert('New object created with objectId: ' + userRecord.id);
 
+						_userRecordId = userRecord.id;
+					},
+					error: function (userRecord, error) {
+						// Execute any logic that should take place if the save fails.
+						// error is a Parse.Error with an error code and message.
+						alert('Failed to create new object, with error code: ' + error.message);
+					}
+				});
+			},
+			getUserRecords: function (limit) {
+				var UserRecords = Parse.Object.extend("UserRecords");
+				var userRecords = new UserRecords();
 
-//    getUserRecords(5);//EXAMPLE
-function getUserRecords(limit) {
-	var UserRecords = Parse.Object.extend("UserRecords");
-	var userRecords = new UserRecords();
-
-	var query = new Parse.Query(UserRecords);
-	query.limit(limit);//пять результатов
+				var query = new Parse.Query(UserRecords);
+				query.limit(limit);//пять результатов
 //        query.ascending("points");
 // Sorts the results in descending order by the score field
-	query.descending("points");
-	query.find({
-		success: function (results) {
-			results.forEach(function (elem) {
+				query.descending("points");
+				query.find({
+					success: function (results) {
+						results.forEach(function (elem) {
 
-				var geo = elem.get('geo');
-				var date = elem.get('date');
-				var points = elem.get('points');
+							var geo = elem.get('location');
+							//var date = elem.get('date');
+							var points = elem.get('points');
 
-				getCity(geo);
+							//getCity(geo);
 
-				console.log(geo);
-				console.log(date);
-				console.log(points);
+							console.log(geo);
+							//console.log(date);
+							console.log(points);
 
-			});
+						});
+					}
+				});
+			}
 		}
+
 	});
-}
+
+}(Crafty));

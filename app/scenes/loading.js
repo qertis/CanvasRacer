@@ -35,6 +35,13 @@
 				"map": {
 					playerCar: [0, 0], car1: [1, 0], car2: [2, 0], car3: [3, 0], car4: [4, 0]
 				}
+			},
+			"tires.png": {
+				"tile": 100,
+				"tileh": 100,
+				"map": {
+					playerTire: [0,0]
+				}
 			}
 		}
 	};
@@ -69,6 +76,9 @@
 			.textColor('#FFFFFF');
 
 		loadAssets();
+
+
+		Crafty.parse.initialize();
 	}
 
 	function levelOut() {

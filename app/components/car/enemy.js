@@ -26,12 +26,8 @@
 		}
 	];
 
-	setInterval(function () {
-		Crafty.e('EnemyCar')
-			/* Debug */
-			.addComponent('WiredHitBox')
-			.debugStroke('white')
-	}, 2500);
+
+
 
 	Crafty.c('EnemyCar', {
 		speedUp: function () {
@@ -71,7 +67,7 @@
 
 					console.log('CRASH!');
 				})
-				.onHit('PlayerCar', this.crash)
+				//.onHit('PlayerCar', this.crash)
 				//.onHit('EnemyCar', this.crash)
 				.bind('SpeedUp', this.speedUp)
 				.bind('SpeedDown', this.speedDown)

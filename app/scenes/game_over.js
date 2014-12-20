@@ -80,6 +80,8 @@
             })
             .setText('Again')
         ;*/
+
+        Crafty.parse.getUserRecords(5);
     }
 
     function levelOut() {

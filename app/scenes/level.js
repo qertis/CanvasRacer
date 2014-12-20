@@ -5,14 +5,14 @@
 
 		Crafty.background('rgb(127,127,127)');
 
-		Crafty.e('PlayerCar').attr({
+		var playerCar = Crafty.e('PlayerCar').attr({
 			x: 200,
 			y: 300
 		})
 			.addComponent('WiredHitBox')
 			.debugStroke("white")
 
-		Crafty.e('Track')
+		Crafty.e('Track');
 
 		Crafty.e('Pause');
 
@@ -25,9 +25,32 @@
 				y: 200
 			});
 
-		Crafty.e("Points");
-		Crafty.e("Delay");
+		Crafty.e('Points');
+		Crafty.e('Delay');
 
+
+		var playerTireLeft = Crafty.e('2D, Canvas, playerTire, playerTireLeft')
+			.attr({z: 1, x: 205, y: 358})
+			.origin('center');
+		playerCar.attach(playerTireLeft)
+
+		var playerTireRight = Crafty.e('2D, Canvas, playerTire, playerTireRight')
+			.attr({z: 1, x: 305, y: 358})
+			.origin('center')
+		playerCar.attach(playerTireRight)
+
+
+
+		/* используйте такой формат, вместо setInterval*/
+		Crafty.e("Delay").delay(function() {
+			//console.log("100ms later" + x);
+
+			Crafty.e('EnemyCar')
+				.addComponent('WiredHitBox')
+				.debugStroke('white')
+		}, 2500, -1, function() {
+			console.log("delay finished");
+		});
 	}
 
 	function levelOut() {

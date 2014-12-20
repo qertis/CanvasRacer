@@ -35,6 +35,7 @@
         }
     });
 
+    /*
     Crafty.extend({
         _href: null,
         setHref: function () {
@@ -46,7 +47,7 @@
                 return this._href = pageHref;
             }
         }
-    });
+    });*/
 
 
     Crafty.extend({
@@ -74,13 +75,5 @@
         }
     });
 
-
-    Crafty.extend({
-
-        parse: function () {
-
-        }
-
-    });
 
 }(Crafty));

@@ -3,7 +3,8 @@
 
 		init: function () {
 			this
-				.requires('Car, 2D, Canvas, Collision, playerCar, Sprite, Multiway, Keyboard, Tween')
+				.requires('Car, 2D, Canvas, playerCar, Sprite, Multiway, Keyboard, Tween')
+				.requires('Collision')
 				.attr({
 					z: 9,
 					crashed: false
@@ -12,7 +13,7 @@
 				.collision(new Crafty.polygon([15, 30], [115, 30], [120, 275], [10, 275]))
 				.multiway({x: 3, y: 3}, {
 					LEFT_ARROW: -180,
-					RIGHT_ARROW: 0,
+					RIGHT_ARROW: 0
 					//UP_ARROW: -90,
 					//DOWN_ARROW: 90
 				})
@@ -52,6 +53,19 @@
 					if (this.isDown('UP_ARROW')) {
 						Crafty('Track').UpSpeed(0.01);
 					}
+
+
+
+					var playerCar = this;
+					Crafty('playerTireLeft').attr({
+						rotation: playerCar.rotation *2
+					});
+					Crafty('playerTireRight').attr({
+						rotation: playerCar.rotation *2
+					})
+
+
+
 				})
 				.bind('NewDirection', function () {
 					if (this.crashed) return;
@@ -65,8 +79,9 @@
 					} else {
 						this.trigger('TurnStop');
 					}
+
 				})
-				.onHit('EnemyCar', this.crash)
+				//.onHit('EnemyCar', this.crash)
 				.one('Crash', function () {
 					console.log('crash')
 					this.crashed = true;
