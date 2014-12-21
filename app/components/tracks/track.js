@@ -1,27 +1,32 @@
 (function (Crafty) {
 
 	Crafty.c('Track', {
-
 		_speed: 4.0,
 		_maxSpeed: 10.0,
-		init: function () {
+		_distance: 0.0,
+
+		GetDistance: function() {
+			return Math.round(this._distance);
 		},
 		UpSpeed: function (value) {
-			//this.GetSpeed()
 			if (this._speed < this._maxSpeed) {
 				this._speed += value;
 			}
 		},
 		DownSpeed: function (value) {
-			this._speed -= value;
+			if(this._speed > 0) {
+				this._speed -= value;
+			}
 		},
 		GetSpeed: function () {
 			return this._speed;
 		},
+		GetMaxSpeed: function () {
+			return this._maxSpeed;
+		},
 
 		init: function () {
 			var defaultY = -360;
-
 
 			this
 				.requires('2D, Canvas, Image')
@@ -33,6 +38,7 @@
 				})
 				.image("content/images/road_texture.jpg", "repeat-y")
 				.bind('EnterFrame', function () {
+					this._distance += this.GetSpeed();
 					this.y += this.GetSpeed();
 
 					if (this.y > 0)

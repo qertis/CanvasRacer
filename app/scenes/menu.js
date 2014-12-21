@@ -13,9 +13,7 @@
 			once: false
 		})
 			.createVideo()
-			//.setFullScreenStyle();
 			.setInnerScreenStyle();
-
 
 		Crafty.e("2D, DOM, Text")
 			.attr({w: 100, h: 20, x: 50, y: 120})
@@ -45,7 +43,9 @@
 
 				Crafty.enterScene('loading')
 
-				Crafty('Video').destroyVideo();
+				Crafty('Video').each(function () {
+					this.destroyVideo();
+				});
 
 			})
 			.setText('Start')
@@ -59,6 +59,7 @@
 		 Crafty.e('DebugMsg');
 		 });
 		 /*TESTEND*/
+
 	}
 
 	function levelOut() {

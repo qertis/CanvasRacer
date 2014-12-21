@@ -1,32 +1,31 @@
 (function (Crafty) {
 
-    Crafty.c('Points', {
-        _score: 0,
+	Crafty.c('Points', {
+		_score: 0,
 
-        stop: function() {
-            this.unbind('EnterFrame')
-        },
-        getPoints: function () {
-            return this._score;
-        },
-        init: function () {
-            this
-                .requires('BoldFont')
-                .attr({
-                    x: Crafty.viewport.width - 150,
-                    y: 20,
-                    w: 150,
-                    h: 20,
-                    z: 999
-                })
-                .bind('EnterFrame', function () {
-                    this._score++;
+		stop: function () {
+			this.unbind('EnterFrame')
+		},
+		getPoints: function () {
+			return this._score;
+		},
+		init: function () {
+			this
+				.requires('BoldFont')
+				.attr({
+					x: Crafty.viewport.width / 2 - 10,
+					y: Crafty.viewport.height - 40,
+					w: 100,
+					h: 20,
+					z: 999
+				})
+				.bind('EnterFrame', function () {
+					this._score = Crafty('Track').GetDistance();
 
-                    this.text('Points ' + this.getPoints());
-                })
-                .text('0 Points')
-            ;
-        }
-    });
+					this.text('' + this.getPoints());
+				})
+			;
+		}
+	});
 
 }(Crafty));

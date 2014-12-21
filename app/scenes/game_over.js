@@ -6,37 +6,7 @@
 		Crafty.background('#000 url(content/images/game_over.png) no-repeat center center');
 		Crafty.stage.elem.style.backgroundSize = 'contain';
 
-		//getUserRecords(5);
-
-		Crafty
-			.e('2D, DOM, Text')
-			.attr({
-				x: 20,
-				y: 20,
-				z: 9,
-				h: 100,
-				w: 100
-			})
-			.css('color', '#ccc')
-			.text('YOUR RECORD: ' + Crafty.player.getPoints())
-		;
-		/*
-		 Crafty
-		 .e('2D, DOM, Text')
-		 .attr({
-		 x: 20,
-		 y: 400,
-		 z: 9,
-		 h: 100,
-		 w: 300
-		 })
-		 .css('color', '#ccc')
-		 .text('WORLD Record: \n\n\
-		 1. Nick (1000km) \n\
-		 2. Ava (900km) \n\
-		 3. ...');*/
-
-		/* share facebook btn */
+		/* share facebook btn
 		Crafty
 			.e('Button')
 			.attr({
@@ -55,13 +25,14 @@
 				window.open(href);
 			})
 			.setText('FB SHARE')
+		/**/
 
 		/* vk btn */
 		Crafty
-			.e('Button')
+			.e('2D, Canvas, share, Mouse')
 			.attr({
-				x: 150,
-				y: 50,
+				x: Crafty.viewport.width-50,
+				y: 0,
 				w: 50,
 				h: 50
 			})
@@ -69,7 +40,6 @@
 				var href = 'http://vkontakte.ru/share.php?url=' + window.location.href;
 				window.open(href);
 			})
-			.setText('VK SHARE')
 		;
 
 		Crafty
@@ -102,10 +72,41 @@
 			.setText('Save My Record')
 		;
 
+		Crafty
+			.e('2D, Canvas, Text')
+			.attr({
+				x: 20,
+				y: 20,
+				z: 9,
+				h: 100,
+				w: 100
+			})
+			.textColor('#CCCCCC')
+			.text('YOUR RECORD: ' + Crafty.player.getPoints())
+		;
 
+		Crafty.e('2D, Canvas, Text')
+			.attr({
+				x: 40,
+				y: 60
+			})
+			.textColor('#FFFFFF')
+			.text('Top records: ');
 
+		Crafty.parse.getUserRecords(3, function(obj) {
 
-		Crafty.parse.getUserRecords(5);
+			Crafty
+				.e('2D, Canvas, Text')
+				.attr({
+					x: 40,
+					y: 80 + 20 * obj.index,
+					z: 9,
+					h: 100,
+					w: 100
+				})
+				.textColor('#FFFFFF')
+				.text('Points ' + obj.points + ' , from ' + obj.city);
+		});
 	}
 
 	function levelOut() {

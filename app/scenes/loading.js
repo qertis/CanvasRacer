@@ -16,7 +16,14 @@
 			"power_up": "power_up.mp3",
 			"upgrade": "upgrade.wav"
 		},
-		"images": ["game_over.png", "menu.jpg", "controls/dpad.png", "road_texture.jpg"],
+		"images": [
+			"game_over.png",
+			"menu.jpg",
+			"controls/dpad.png",
+			"road_texture.jpg",
+			"speedometer/arrow.png",
+			"speedometer/speedometer.png"
+		],
 		"sprites": {
 			"controls/buttons.png": {
 				"tile": 48,
@@ -37,8 +44,8 @@
 				}
 			},
 			"tires.png": {
-				"tile": 100,
-				"tileh": 100,
+				"tile": 19,
+				"tileh": 44,
 				"map": {
 					playerTire: [0,0]
 				}

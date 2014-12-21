@@ -11,11 +11,9 @@
 				})
 				.origin('top center')
 				.collision(new Crafty.polygon([15, 30], [115, 30], [120, 275], [10, 275]))
-				.multiway({x: 3, y: 3}, {
+				.multiway({x: 3, y: 0}, {
 					LEFT_ARROW: -180,
 					RIGHT_ARROW: 0
-					//UP_ARROW: -90,
-					//DOWN_ARROW: 90
 				})
 				.bind('TurnLeft', function () {
 					if (this._movement.y <= 0) {
@@ -51,20 +49,18 @@
 				})
 				.bind('EnterFrame', function () {
 					if (this.isDown('UP_ARROW')) {
-						Crafty('Track').UpSpeed(0.01);
+						Crafty('Track').UpSpeed(0.02);
+					} else if (this.isDown('DOWN_ARROW')) {
+						Crafty('Track').DownSpeed(0.04);
 					}
-
-
-
+					
 					var playerCar = this;
 					Crafty('playerTireLeft').attr({
-						rotation: playerCar.rotation *2
+						rotation: playerCar.rotation * 2.4
 					});
 					Crafty('playerTireRight').attr({
-						rotation: playerCar.rotation *2
-					})
-
-
+						rotation: playerCar.rotation * 2.4
+					});
 
 				})
 				.bind('NewDirection', function () {
@@ -89,7 +85,7 @@
 
 
 					//проверяем что разбилась именно наша машина
-					if(this.has('PlayerCar')) {
+					if (this.has('PlayerCar')) {
 
 
 						Crafty('Points').stop();
@@ -104,13 +100,10 @@
 
 							Crafty.enterScene('game-over');
 
-							//if (Crafty.viewport._scale === 1) {
 						}, 250);
 
 
 					}
-
-					//this.destroy();
 
 				})
 		}

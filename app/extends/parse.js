@@ -72,29 +72,25 @@
 				userRecords.set("city", city);
 				userRecords.save();
 			},
-			getUserRecords: function (limit) {
+			getUserRecords: function (limit, callback) {
 				var UserRecords = Parse.Object.extend("UserRecords");
-				var userRecords = new UserRecords();
-
 				var query = new Parse.Query(UserRecords);
-				query.limit(limit);//пять результатов
-//        query.ascending("points");
-// Sorts the results in descending order by the score field
 				query.descending("points");
+				query.limit(limit);
 				query.find({
 					success: function (results) {
-						results.forEach(function (elem) {
-
-							var geo = elem.get('location');
-							//var date = elem.get('date');
+						results.forEach(function (elem, index) {
+							var city = elem.get('city');
 							var points = elem.get('points');
 
-							//getCity(geo);
-
-							console.log(geo);
-							//console.log(date);
-							console.log(points);
-
+							if (callback) {
+								callback({
+									count: results.length,
+									index: index,
+									city: city,
+									points: points
+								});
+							}
 						});
 					}
 				});
