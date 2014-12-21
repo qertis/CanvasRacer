@@ -1,4 +1,5 @@
 (function (Crafty, $) {
+	'use strict';
 
 	$(initGame);
 
@@ -31,7 +32,6 @@
 				'app/components/buttons/fullScreen.js',
 
 				/* extends */
-				'app/extends/geo.js',
 				'app/extends/player.js',
 				'app/extends/parse.js',
 
@@ -57,8 +57,6 @@
 				runGame();
 			})
 			.done(function () {
-				//Crafty.enterScene('loading')
-
 				Crafty.enterScene('menu')
 				//Crafty.enterScene('level')
 

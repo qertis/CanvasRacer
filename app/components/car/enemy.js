@@ -1,4 +1,6 @@
 (function (Crafty) {
+	'use strict';
+
 	var carType = [
 		{
 			type: 'car1',
@@ -26,22 +28,23 @@
 		}
 	];
 
-
 	Crafty.c('EnemyCar', {
+
 		speedUp: function () {
-			this.y += this._speed + Crafty('Track').GetSpeed();
+			this.y += this._speed + Crafty('Track').getSpeed();
 		},
+
 		speedDown: function () {
-			this.y -= this._speed + Crafty('Track').GetSpeed();
+			this.y -= this._speed + Crafty('Track').getSpeed();
 		},
+
 		init: function () {
 			if (Crafty._current !== 'level') return;
 
 			var getRandomPos = Crafty.math.randomInt(0, 1);
 			var getRandomCar = Crafty.math.randomElementOfArray(carType);
 
-			this
-				.requires('Car, 2D, Canvas, Sprite, Collision')
+			this.requires('Car, 2D, Canvas, Sprite, Collision')
 				.requires(getRandomCar.type)
 				.collision(new Crafty.polygon(getRandomCar.collision()))
 				.attr({
@@ -67,6 +70,7 @@
 				})
 			;
 		}
+
 	});
 
 }(Crafty));

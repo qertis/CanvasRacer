@@ -1,4 +1,5 @@
 (function (Crafty) {
+	'use strict';
 
 	Crafty.c('Points', {
 		_intlNumberFormat: null,
@@ -7,12 +8,15 @@
 		stop: function () {
 			this.unbind('EnterFrame')
 		},
+
 		getPoints: function () {
 			return this._score;
 		},
+
 		getFormat: function() {
 			return this._intlNumberFormat.format(this.getPoints());
 		},
+
 		init: function () {
 			this._intlNumberFormat = new Intl.NumberFormat('en', {maximumFractionDigits: 1});
 
@@ -27,10 +31,9 @@
 				})
 				.textFont({
 					size: '26px'
-					//family: 'Lobster'
 				})
 				.bind('EnterFrame', function () {
-					this._score = Crafty('Track').GetDistance();
+					this._score = Crafty('Track').getDistance();
 
 					this.text(this.getFormat());
 				})

@@ -1,4 +1,5 @@
 (function (Crafty) {
+	'use strict';
 
 	var APPLICATION_ID = "bn9Mvt4trLBqOE9zu6OisSdEvnd7m7o9i2Eqzs7k";
 	var JAVASCRIPT_KEY = "eCVDbPlzgDF6xDNnCduQvwSZB2iQzfzqNMXkuyPT";
@@ -7,7 +8,6 @@
 	Crafty.extend({
 
 		geo: {
-
 			//yandex geocoding. Get city
 			getCity: function (geoPoint, callback) {
 				if (!geoPoint || !geoPoint.latitude || !geoPoint.longitude) return;
@@ -36,9 +36,11 @@
 			initialize: function () {
 				Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
 			},
+
 			user: function () {
 				Parse.User.allowCustomUserClass(false);//запрещаем делать кастомные классы
 			},
+
 			saveUserRecords: function (points, location) {
 				var UserRecords = Parse.Object.extend("UserRecords");
 				this._userRecords = this._userRecords || new UserRecords();
@@ -62,6 +64,7 @@
 					}
 				});
 			},
+
 			updateUserCity: function (city) {
 				if (!city) return;
 
@@ -72,6 +75,7 @@
 				userRecords.set("city", city);
 				userRecords.save();
 			},
+
 			getUserRecords: function (limit, callback) {
 				var UserRecords = Parse.Object.extend("UserRecords");
 				var query = new Parse.Query(UserRecords);

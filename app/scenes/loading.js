@@ -1,8 +1,7 @@
 (function (Crafty) {
+	'use strict';
 
 	Crafty.defineScene('loading', levelInit, levelOut);
-
-	//--------------------------------------------------------------
 
 	Crafty.paths({
 		images: "content/images/",
@@ -47,21 +46,21 @@
 				"tile": 19,
 				"tileh": 44,
 				"map": {
-					playerTire: [0,0]
+					playerTire: [0, 0]
 				}
 			}
 		}
 	};
 
 	function loadAssets() {
-// preload assets
+		/* preload assets */
 		Crafty.load(assetsObj,
 			function () {
 				Crafty.scene('level')
 			},
-			function (e) { //progress
-				console.log(e);
-				//Crafty('Loading').text('progress: ' + e.percent)
+			function (e) {
+				Crafty('LoadingIndicator').w = Crafty.viewport.width / (100 / e.percent);
+				Crafty('LoadingText').text('Loading: ' + e.loaded + ' from: ' + e.total)
 			},
 			function (e) { //uh oh, error loading
 				console.error('error asset')
@@ -69,21 +68,27 @@
 		);
 	}
 
-	//---------------------------------------------------------------
-
 	function levelInit() {
-		console.log('xx')
 
 		Crafty.background('#000000');
 
-		Crafty.e('Text, ItalicFont')
+		Crafty.e('Text, ItalicFont, LoadingText')
 			.attr({x: 0, y: 300})
 			.text('Loading...')
 			.textFont({size: '20px'})
 			.textColor('#FFFFFF');
 
-		loadAssets();
+		Crafty.e("2D, Canvas, Color, LoadingIndicator")
+			.color("#00FF00", 0.5)
+			.attr({
+				x: 0,
+				y: 330,
+				z: 9,
+				w: Crafty.viewport.width,
+				h: 15
+			});
 
+		loadAssets();
 
 		Crafty.parse.initialize();
 	}

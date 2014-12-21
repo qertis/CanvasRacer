@@ -1,6 +1,7 @@
-(function () {
+(function (window) {
+    'use strict';
 
-    /**
+    /*
      * Override alert
      * */
     if ('alert' in window) {
@@ -12,4 +13,4 @@
             }
         }
     }
-}());
+}(window));

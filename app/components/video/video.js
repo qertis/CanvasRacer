@@ -1,4 +1,5 @@
 (function (Crafty) {
+	'use strict';
 
 	Crafty.c('Video', {
 		poster: '',
@@ -22,7 +23,6 @@
 		},
 
 		setFullScreenStyle: function () {
-
 			this.videoElem.style.position = 'fixed';
 			this.videoElem.style.right = 0;
 			this.videoElem.style.bottom = 0;
@@ -41,7 +41,6 @@
 		},
 
 		setInnerScreenStyle: function () {
-
 			this.videoElem.style.position = 'absolute';
 			this.videoElem.style.left = 0;
 			this.videoElem.style.top = 0;

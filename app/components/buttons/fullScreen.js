@@ -1,21 +1,25 @@
 (function (Crafty) {
+	'use strict';
+
 	Crafty.c('FullScreen', {
 		_isFullScreen: false,
-		init: function () {
 
+		init: function () {
 			this.requires('Button')
 				.attr({
-					x: 0,
-					y: Crafty.viewport.height - 25,
-					w: 150,
+					x: Crafty.viewport.width - 60,
+					y: 0,
+					w: 60,
 					h: 50
 				})
 				.bind('Click', function () {
-
 					this.fullScreenToggle();
 				})
 				.setText('Full Screen')
+				.setSize();
+
 		},
+
 		fullScreenToggle: function () {
 			this._isFullScreen = !this._isFullScreen;
 
@@ -27,9 +31,11 @@
 				this.setText('Full Screen Off')
 			}
 		},
+
 		getIsFullScreen: function () {
 			return this._isFullScreen;
 		},
+
 		fullScreenOn: function () {
 			if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
 				if (document.documentElement.requestFullscreen) {
@@ -41,6 +47,7 @@
 				}
 			}
 		},
+
 		fullScreenOff: function () {
 			if (document.exitFullscreen) {
 				document.exitFullscreen();
@@ -50,6 +57,7 @@
 				document.webkitExitFullscreen();
 			}
 		}
-	})
+
+	});
 
 }(Crafty));

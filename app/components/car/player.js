@@ -1,7 +1,7 @@
 (function (Crafty) {
+	'use strict';
 
 	Crafty.c('PlayerCar', {
-
 		UPSPEED: 0.02,
 		DOWNSPEED: -0.04,
 
@@ -24,10 +24,10 @@
 				.bind('GamepadKeyChange', function (e) {
 					switch (e.button) {
 						case 0:
-							Crafty('Track').SetSpeed(this.UPSPEED);
+							Crafty('Track').setSpeed(this.UPSPEED);
 							break;
 						case 1:
-							Crafty('Track').SetSpeed(this.DOWNSPEED);
+							Crafty('Track').setSpeed(this.DOWNSPEED);
 							break;
 					}
 				})
@@ -42,41 +42,42 @@
 						if (e.value < 0.15) {
 							speed = e.value * this._speed.x;
 
-							this.trigger('TurnLeft', speed * 4);
+							this.trigger('TurnDirection', speed * 4);
 						} else if (e.value > 0.15) {
 							speed = e.value * this._speed.x;
-							this.trigger('TurnRight', speed * 4);
+							this.trigger('TurnDirection', speed * 4);
 						}
 
 						this.move('w', -speed);
 					}
 				})
 				.bind('DeviceAxisChange', function (data) {
-
 					if (data) {
-						//ограничение на поворот в 50'
-						if (Crafty.math.withinRange(data.tiltLR, -50, 50)) {
-							this.move('w', data.tiltLR / 10);
-							//this.trigger('TurnLeft', speed * 4);
+
+						console.log(data);
+
+						if (data.tiltLR < 1 || data.tiltLR > 1) {
+							if (data.tiltLR < -40) data.tiltLR = -40;
+							if (data.tiltLR > 40) data.tiltLR = 40;
+
+							console.log(data.tiltLR)
+
+							// ограничение на поворот
+							var moveW = Crafty.math.clamp(-data.tiltLR / 10, -this._speed.x, this._speed.x);
+							this.move('w', moveW);
+
+							var turnDirection = Crafty.math.clamp(data.tiltLR / 1.5, -10, 10)
+							this.trigger('TurnDirection', turnDirection);
 						}
 
-						if(Crafty.math.withinRange(data.tiltFB, - 30, 30)) {
-							console.log(data.tiltFB / 10)
-
-
-							Crafty('Track').SetSpeed(data.tiltFB / 10);
-
+						if (data.tiltFB < 0) {
+							Crafty('Track').setSpeed(this.UPSPEED)
+						} else if (data.tiltFB > 0) {
+							Crafty('Track').setSpeed(this.DOWNSPEED)
 						}
 					}
 				})
-				.bind('TurnLeft', function (rotation, time) {
-					if (this._movement.y <= 0) {
-						this.tween({rotation: rotation}, time || 200);
-					} else if (this._movement.y > 0) {
-						this.tween({rotation: rotation}, time || 500);
-					}
-				})
-				.bind('TurnRight', function (rotation, time) {
+				.bind('TurnDirection', function (rotation, time) {
 					if (this._movement.y <= 0) {
 						this.tween({rotation: rotation}, time || 200);
 					} else if (this._movement.y > 0) {
@@ -103,9 +104,9 @@
 				})
 				.bind('EnterFrame', function () {
 					if (this.isKeyDown('UP_ARROW')) {
-						Crafty('Track').SetSpeed(this.UPSPEED);
+						Crafty('Track').setSpeed(this.UPSPEED);
 					} else if (this.isKeyDown('DOWN_ARROW')) {
-						Crafty('Track').SetSpeed(this.DOWNSPEED);
+						Crafty('Track').setSpeed(this.DOWNSPEED);
 					}
 
 					var playerCar = this;
@@ -115,7 +116,6 @@
 					Crafty('playerTireRight').attr({
 						rotation: playerCar.rotation * 2.4
 					});
-
 				})
 				.bind('NewDirection', function () {
 					if (this.crashed) return;
@@ -123,40 +123,31 @@
 					/* Проверяем нажатие на клавиши
 					 * В зависимости от нажатых клавиш включаем Tween */
 					if (this.isKeyDown('LEFT_ARROW')) {
-						this.trigger('TurnLeft', -10);
+						this.trigger('TurnDirection', -10);
 					} else if (this.isKeyDown('RIGHT_ARROW')) {
-						this.trigger('TurnRight', 10);
+						this.trigger('TurnDirection', 10);
 					} else {
 						this.trigger('TurnStop');
 					}
 
 				})
-				//.onHit('EnemyCar', this.crash)
+				.onHit('EnemyCar', this.crash)
 				.one('Crash', function () {
 					console.log('crash')
+
 					this.crashed = true;
 					this.disableControl();
 
-
 					//проверяем что разбилась именно наша машина
 					if (this.has('PlayerCar')) {
-
-
 						Crafty('Points').stop();
 
 						Crafty('Delay').get(0).delay(function () {
-
-							//console.log('fail')
-
 							Crafty.player.setPoints(Crafty('Points').getPoints());
 							Crafty.player.setMyLocation();
 
-
 							Crafty.enterScene('game-over');
-
 						}, 250);
-
-
 					}
 				})
 			;

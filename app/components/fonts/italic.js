@@ -1,4 +1,5 @@
 (function (Crafty) {
+	'use strict';
 
 	Crafty.c('ItalicFont', {
 		init: function () {
@@ -13,5 +14,5 @@
 				});
 		}
 	});
-	
+
 }(Crafty));

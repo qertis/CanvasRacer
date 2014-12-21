@@ -1,7 +1,9 @@
 (function (Crafty) {
+	'use strict';
 
 	Crafty.c('Pause', {
 		_isPaused: false,
+
 		togglePause: function () {
 			this.toggleComponent('pause', 'play');
 
@@ -9,9 +11,11 @@
 
 			this.toggleFrame();
 		},
+
 		getIsPaused: function () {
 			return this._isPaused;
 		},
+
 		toggleFrame: function () {
 			// некрасивое решение (ХАК)
 			// если стоит пауза а вам надо поставить другой фрейм -
@@ -21,6 +25,7 @@
 				Crafty.pause(this._isPaused);
 			}.bind(this), 15);
 		},
+
 		init: function () {
 			this.requires('2D, Canvas, pause, Mouse')
 				.attr({
@@ -28,23 +33,17 @@
 				})
 				.bind('Click', function (MouseEvent) {
 					this.togglePause();
-
 				});
-
 
 			var self = this;
 			Crafty.uniqueBind('Pause', function () {
-				//self.toggleComponent('pause', 'play')
 				self._isPaused = true;
-
 			});
 			Crafty.uniqueBind('Unpause', function () {
-				console.log('Unpause')
-
 				self._isPaused = false;
 			});
-
-
 		}
+
 	});
+
 }(Crafty));

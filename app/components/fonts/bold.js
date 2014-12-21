@@ -1,4 +1,5 @@
 (function (Crafty) {
+	'use strict';
 
 	Crafty.c('BoldFont', {
 		init: function () {
