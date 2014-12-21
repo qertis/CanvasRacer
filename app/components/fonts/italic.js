@@ -9,8 +9,7 @@
 				.textFont({
 					type: 'italic',
 					size: '20px',
-					weight: 'bold',
-					family: 'Ubuntu Mono'
+					family: 'Lobster'
 				});
 		}
 	});

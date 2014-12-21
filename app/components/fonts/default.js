@@ -7,8 +7,7 @@
 				.origin("center")
 				.textColor('#FF0000')
 				.textFont({
-					size: '20px',
-					family: 'Ubuntu Mono'
+					size: '20px'
 				});
 		}
 	});

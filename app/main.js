@@ -13,6 +13,7 @@
 				'app/components/controls/keyboard.js',
 				'app/components/controls/gamepad.js',
 				'app/components/controls/touch.js',
+				'app/components/controls/devieOrientation.js',
 				/* debug */
 				'app/components/debug/debug.js',
 				/* fonts */
@@ -59,6 +60,7 @@
 				//Crafty.enterScene('loading')
 
 				Crafty.enterScene('menu')
+				//Crafty.enterScene('level')
 
 			});
 	}
@@ -72,7 +74,13 @@
 	}
 
 	function runGame() {
-		console.log('game init');
+		if (!Crafty.support.canvas) {
+			throw 'Canvas is not supported!'
+		}
+
+		if (!Crafty.support.audio) {
+			throw 'Audio is not supported!'
+		}
 
 		Crafty.init(360, 640, 'canvasRacer');
 		Crafty.canvas.init();

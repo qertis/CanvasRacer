@@ -48,12 +48,41 @@
 
 		/* используйте такой формат, вместо setInterval*/
 		Crafty("Delay").get(0).delay(function () {
-			//console.log("100ms later" + x);
+			var range = null;
+			var trackRandomPositions = [];
+			var trackPosition = null;
+			var enemyCarsLenght = Crafty('EnemyCar').length;
+			var trackSpeed = Crafty('Track').GetSpeed();
 
-			Crafty.e('EnemyCar')
-				.addComponent('WiredHitBox')
-				.debugStroke('white')
-		}, 2500, -1, function () {
+			// не более двух машин на сцене
+			if (enemyCarsLenght >= 2) {
+				return;
+			}
+
+			//Чем больше скорость у персонажа - тем выше вероятность создания врага)
+			range = Crafty.math.randomNumber(0, (Crafty.viewport.height * 2) - (trackSpeed * 3));
+
+			if (Crafty.math.withinRange(range, 0, Crafty.viewport.height)) {
+				trackRandomPositions = [
+					Crafty.math.randomInt(0, 25),
+					Crafty.math.randomInt(205, 230)
+				];
+
+				trackPosition = Crafty.math.randomElementOfArray(trackRandomPositions);
+
+				Crafty.e('EnemyCar')
+					.attr({
+						x: trackPosition,
+						y: - Crafty.math.randomInt(Crafty.viewport.height * 1.5, Crafty.viewport.height * 2)
+					})
+					.addComponent('WiredHitBox')
+					.debugStroke('white')
+			}
+
+
+			//Удаляем неиспользуемые ссылки.
+			enemyCarsLenght = trackSpeed = range = trackRandomPositions = trackPosition = null;
+		}, 1200, -1, function () {
 			console.log("delay finished");
 		});
 
@@ -83,7 +112,7 @@
 			.attr({
 				x: Crafty.viewport.width / 2 - 150 / 2,
 				y: Crafty.viewport.height - 120,
-				z: 98,
+				z: 91,
 				w: 150,
 				h: 150
 			})

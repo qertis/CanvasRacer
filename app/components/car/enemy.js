@@ -27,8 +27,6 @@
 	];
 
 
-
-
 	Crafty.c('EnemyCar', {
 		speedUp: function () {
 			this.y += this._speed + Crafty('Track').GetSpeed();
@@ -46,14 +44,8 @@
 				.requires('Car, 2D, Canvas, Sprite, Collision')
 				.requires(getRandomCar.type)
 				.collision(new Crafty.polygon(getRandomCar.collision()))
-				.one('SetAttrs', function () {
-					if (getRandomPos == 1) {
-						this.x = Crafty.math.randomInt(0, 40);
-					} else {
-						this.x = Crafty.math.randomInt(190, 230);
-					}
-					this.y = Crafty.math.randomNumber(-300, -320);
-					this._speed = Crafty.math.randomNumber(1, 1.2);
+				.attr({
+					_speed : Crafty.math.randomNumber(1, 1.2)
 				})
 				.bind('RenderScene', function () {
 					if (this.y > Crafty.viewport.height) {
@@ -67,14 +59,13 @@
 
 					console.log('CRASH!');
 				})
-				//.onHit('PlayerCar', this.crash)
-				//.onHit('EnemyCar', this.crash)
+				.onHit('EnemyCar', this.crash)
 				.bind('SpeedUp', this.speedUp)
 				.bind('SpeedDown', this.speedDown)
 				.bind('EnterFrame', function () {
 					this.trigger('SpeedUp');
 				})
-				.trigger('SetAttrs');
+			;
 		}
 	});
 

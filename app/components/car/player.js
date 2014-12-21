@@ -1,9 +1,14 @@
 (function (Crafty) {
+
 	Crafty.c('PlayerCar', {
+
+		UPSPEED: 0.02,
+		DOWNSPEED: -0.04,
 
 		init: function () {
 			this
-				.requires('Car, 2D, Canvas, playerCar, Sprite, Multiway, Keyboard, Tween')
+				.requires('Car, 2D, Canvas, playerCar, Sprite, Multiway, Keyboard, Tween, Gamepad')
+				.requires('DeviceOrientation')
 				.requires('Collision')
 				.attr({
 					z: 9,
@@ -15,18 +20,67 @@
 					LEFT_ARROW: -180,
 					RIGHT_ARROW: 0
 				})
-				.bind('TurnLeft', function () {
-					if (this._movement.y <= 0) {
-						this.tween({rotation: -10}, 200);
-					} else if (this._movement.y > 0) {
-						this.tween({rotation: 10}, 500);
+				.gamepad(0)
+				.bind('GamepadKeyChange', function (e) {
+					switch (e.button) {
+						case 0:
+							Crafty('Track').SetSpeed(this.UPSPEED);
+							break;
+						case 1:
+							Crafty('Track').SetSpeed(this.DOWNSPEED);
+							break;
 					}
 				})
-				.bind('TurnRight', function () {
+				.bind('GamepadAxisChange', function (e) {
+					var speed = 0.0;
+
+					if (this.isKeyDown('LEFT_ARROW') || this.isKeyDown('RIGHT_ARROW')) {
+						return;
+					}
+
+					if (e.axis === 0) {
+						if (e.value < 0.15) {
+							speed = e.value * this._speed.x;
+
+							this.trigger('TurnLeft', speed * 4);
+						} else if (e.value > 0.15) {
+							speed = e.value * this._speed.x;
+							this.trigger('TurnRight', speed * 4);
+						}
+
+						this.move('w', -speed);
+					}
+				})
+				.bind('DeviceAxisChange', function (data) {
+
+					if (data) {
+						//ограничение на поворот в 50'
+						if (Crafty.math.withinRange(data.tiltLR, -50, 50)) {
+							this.move('w', data.tiltLR / 10);
+							//this.trigger('TurnLeft', speed * 4);
+						}
+
+						if(Crafty.math.withinRange(data.tiltFB, - 30, 30)) {
+							console.log(data.tiltFB / 10)
+
+
+							Crafty('Track').SetSpeed(data.tiltFB / 10);
+
+						}
+					}
+				})
+				.bind('TurnLeft', function (rotation, time) {
 					if (this._movement.y <= 0) {
-						this.tween({rotation: 10}, 200);
+						this.tween({rotation: rotation}, time || 200);
 					} else if (this._movement.y > 0) {
-						this.tween({rotation: -10}, 500);
+						this.tween({rotation: rotation}, time || 500);
+					}
+				})
+				.bind('TurnRight', function (rotation, time) {
+					if (this._movement.y <= 0) {
+						this.tween({rotation: rotation}, time || 200);
+					} else if (this._movement.y > 0) {
+						this.tween({rotation: rotation}, time || 500);
 					}
 				})
 				.bind('TurnStop', function () {
@@ -37,10 +91,10 @@
 					 * Не даем авто выйти за сцену меняя его направление на противоположное */
 					switch (this.getOutScreenX()) {
 						case -1:
-							this.move('w', this._movement.x);
+							this.move('w', -this._speed.x);
 							break;
 						case 1:
-							this.move('w', this._movement.x);
+							this.move('w', this._speed.x);
 							break;
 
 						default:
@@ -48,12 +102,12 @@
 					}
 				})
 				.bind('EnterFrame', function () {
-					if (this.isDown('UP_ARROW')) {
-						Crafty('Track').UpSpeed(0.02);
-					} else if (this.isDown('DOWN_ARROW')) {
-						Crafty('Track').DownSpeed(0.04);
+					if (this.isKeyDown('UP_ARROW')) {
+						Crafty('Track').SetSpeed(this.UPSPEED);
+					} else if (this.isKeyDown('DOWN_ARROW')) {
+						Crafty('Track').SetSpeed(this.DOWNSPEED);
 					}
-					
+
 					var playerCar = this;
 					Crafty('playerTireLeft').attr({
 						rotation: playerCar.rotation * 2.4
@@ -68,16 +122,16 @@
 
 					/* Проверяем нажатие на клавиши
 					 * В зависимости от нажатых клавиш включаем Tween */
-					if (this.isDown('LEFT_ARROW')) {
-						this.trigger('TurnLeft');
-					} else if (this.isDown('RIGHT_ARROW')) {
-						this.trigger('TurnRight');
+					if (this.isKeyDown('LEFT_ARROW')) {
+						this.trigger('TurnLeft', -10);
+					} else if (this.isKeyDown('RIGHT_ARROW')) {
+						this.trigger('TurnRight', 10);
 					} else {
 						this.trigger('TurnStop');
 					}
 
 				})
-				.onHit('EnemyCar', this.crash)
+				//.onHit('EnemyCar', this.crash)
 				.one('Crash', function () {
 					console.log('crash')
 					this.crashed = true;
@@ -104,8 +158,8 @@
 
 
 					}
-
 				})
+			;
 		}
 	});
 

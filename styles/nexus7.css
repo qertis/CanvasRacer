@@ -1,0 +1,28 @@
+/* nexus 7 2013 portrait */
+@media only screen
+and (width: 600px)
+and (height: 960px)
+and (orientation: portrait) {
+
+	#canvasRacer {
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%) rotateZ(0) scale(1.4);
+	}
+}
+
+/* nexus 7 2013 landscape */
+@media only screen
+and (width: 960px)
+and (height: 600px)
+and (orientation: landscape) {
+	#canvasRacer {
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%) rotateZ(90deg) scale(1.4);
+	}
+}
