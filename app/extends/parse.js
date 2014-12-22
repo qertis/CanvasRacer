@@ -32,9 +32,18 @@
 
 		parse: {
 			_userRecords: null,
+			_userRecordObjectId: null,
 
 			initialize: function () {
 				Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
+
+				/* загружаем рекорды пользователя если они есть */
+				var userRecordObjectId = Crafty.storage('userRecordObjectId');
+				if (userRecordObjectId) {
+					this._userRecordObjectId = {
+						id: userRecordObjectId
+					};
+				}
 			},
 
 			user: function () {
@@ -49,11 +58,13 @@
 				userRecords.set("points", points);
 				userRecords.set("location", location);
 
+				/* обновляем если существует в localStorage иначе создаем новый */
 				var self = this;
-				userRecords.save(null, {
+				var recordObj = this._userRecordObjectId || null;
+				userRecords.save(recordObj, {
 					success: function (userRecord) {
 						// Execute any logic that should take place after the object is saved.
-						alert('New object created with objectId: ' + userRecord.id);
+						Crafty.storage('userRecordObjectId', userRecord.id);
 
 						Crafty.geo.getCity(location, self.updateUserCity.bind(self));
 					},
@@ -67,9 +78,6 @@
 
 			updateUserCity: function (city) {
 				if (!city) return;
-
-				console.log('updating city...')
-				console.log(city);
 
 				var userRecords = this._userRecords;
 				userRecords.set("city", city);
@@ -100,7 +108,6 @@
 				});
 			}
 		}
-
 	});
 
 }(Crafty));

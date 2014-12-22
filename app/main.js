@@ -30,18 +30,16 @@
 				/* buttons */
 				'app/components/buttons/pause.js',
 				'app/components/buttons/fullScreen.js',
-
 				/* extends */
 				'app/extends/player.js',
 				'app/extends/parse.js',
-
 				'app/handlers/window/load.js',
 				/* scenes */
 				'app/scenes/game_over.js',
 				'app/scenes/loading.js',
 				'app/scenes/menu.js',
 				'app/scenes/level.js',
-
+				/* utils */
 				'app/utils/utils.js'
 			]))
 			.done(function () {
@@ -57,10 +55,9 @@
 				runGame();
 			})
 			.done(function () {
-				Crafty.enterScene('menu')
-				//Crafty.enterScene('level')
-
-			});
+				Crafty.enterScene('loading');
+			})
+		;
 	}
 
 	function loadScripts(scripts) {
@@ -84,13 +81,15 @@
 		Crafty.canvas.init();
 		Crafty.pixelart(true);
 
+		//debugger;
+
 		Crafty.background('#000000');
 		Crafty.e('Text, ItalicFont')
 			.attr({x: 0, y: 300})
 			.text('Loading Scenes...')
 			.textFont({size: '20px'})
-			.textColor('#FFFFFF');
-
+			.textColor('#FFFFFF')
+		;
 	}
 
 }(Crafty, jQuery));

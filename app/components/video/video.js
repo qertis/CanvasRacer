@@ -56,7 +56,6 @@
 				this.videoElem.style.background = 'url(' + this.poster + ') no-repeat';
 			}
 
-			Crafty.stage.inner.style.zIndex = 0;
 			Crafty.stage.inner.appendChild(this.videoElem);
 		},
 
@@ -71,6 +70,8 @@
 					srcElem.type = 'video/' + source;
 					self.videoElem.appendChild(srcElem);
 				}
+
+				Crafty.DrawManager.renderDOM();
 			}
 
 			function setAttr() {

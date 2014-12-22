@@ -7,9 +7,8 @@
 
 		init: function () {
 			this
-				.requires('Car, 2D, Canvas, playerCar, Sprite, Multiway, Keyboard, Tween, Gamepad')
-				.requires('DeviceOrientation')
-				.requires('Collision')
+				.requires('Car, 2D, Canvas, playerCar, Sprite, Tween, Multiway, Collision')
+				.requires('Keyboard, Gamepad, DeviceOrientation')
 				.attr({
 					z: 9,
 					crashed: false
@@ -22,12 +21,19 @@
 				})
 				.gamepad(0)
 				.bind('GamepadKeyChange', function (e) {
-					switch (e.button) {
+					switch (e && e.button) {
 						case 0:
 							Crafty('Track').setSpeed(this.UPSPEED);
 							break;
 						case 1:
 							Crafty('Track').setSpeed(this.DOWNSPEED);
+							break;
+					}
+				})
+				.bind('GamepadKeyOnceChange', function (e) {
+					switch (e && e.button) {
+						case 9:
+							Crafty('Pause').togglePause();
 							break;
 					}
 				})
@@ -38,7 +44,7 @@
 						return;
 					}
 
-					if (e.axis === 0) {
+					if (e && e.axis === 0) {
 						if (e.value < 0.15) {
 							speed = e.value * this._speed.x;
 
@@ -53,20 +59,15 @@
 				})
 				.bind('DeviceAxisChange', function (data) {
 					if (data) {
-
-						console.log(data);
-
 						if (data.tiltLR < 1 || data.tiltLR > 1) {
 							if (data.tiltLR < -40) data.tiltLR = -40;
 							if (data.tiltLR > 40) data.tiltLR = 40;
-
-							console.log(data.tiltLR)
 
 							// ограничение на поворот
 							var moveW = Crafty.math.clamp(-data.tiltLR / 10, -this._speed.x, this._speed.x);
 							this.move('w', moveW);
 
-							var turnDirection = Crafty.math.clamp(data.tiltLR / 1.5, -10, 10)
+							var turnDirection = Crafty.math.clamp(data.tiltLR / 1.5, -10, 10);
 							this.trigger('TurnDirection', turnDirection);
 						}
 
@@ -78,6 +79,8 @@
 					}
 				})
 				.bind('TurnDirection', function (rotation, time) {
+					if (this.crashed) return;
+
 					if (this._movement.y <= 0) {
 						this.tween({rotation: rotation}, time || 200);
 					} else if (this._movement.y > 0) {
@@ -85,6 +88,8 @@
 					}
 				})
 				.bind('TurnStop', function () {
+					if (this.crashed) return;
+
 					this.tween({rotation: 0}, 200);
 				})
 				.bind('RenderScene', function () {
@@ -92,34 +97,30 @@
 					 * Не даем авто выйти за сцену меняя его направление на противоположное */
 					switch (this.getOutScreenX()) {
 						case -1:
-							this.move('w', -this._speed.x);
+							this.move('w', -this._speed.x - 1);
 							break;
 						case 1:
-							this.move('w', this._speed.x);
-							break;
-
-						default:
+							this.move('w', this._speed.x + 1);
 							break;
 					}
 				})
 				.bind('EnterFrame', function () {
+					var self = this;
+
 					if (this.isKeyDown('UP_ARROW')) {
 						Crafty('Track').setSpeed(this.UPSPEED);
 					} else if (this.isKeyDown('DOWN_ARROW')) {
 						Crafty('Track').setSpeed(this.DOWNSPEED);
 					}
 
-					var playerCar = this;
 					Crafty('playerTireLeft').attr({
-						rotation: playerCar.rotation * 2.4
+						rotation: self.rotation * 2.4
 					});
 					Crafty('playerTireRight').attr({
-						rotation: playerCar.rotation * 2.4
+						rotation: self.rotation * 2.4
 					});
 				})
 				.bind('NewDirection', function () {
-					if (this.crashed) return;
-
 					/* Проверяем нажатие на клавиши
 					 * В зависимости от нажатых клавиш включаем Tween */
 					if (this.isKeyDown('LEFT_ARROW')) {
@@ -129,14 +130,13 @@
 					} else {
 						this.trigger('TurnStop');
 					}
-
 				})
 				.onHit('EnemyCar', this.crash)
 				.one('Crash', function () {
-					console.log('crash')
-
 					this.crashed = true;
 					this.disableControl();
+
+					Crafty.audio.play('crash');
 
 					//проверяем что разбилась именно наша машина
 					if (this.has('PlayerCar')) {
@@ -144,7 +144,6 @@
 
 						Crafty('Delay').get(0).delay(function () {
 							Crafty.player.setPoints(Crafty('Points').getPoints());
-							Crafty.player.setMyLocation();
 
 							Crafty.enterScene('game-over');
 						}, 250);

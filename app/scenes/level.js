@@ -4,8 +4,9 @@
 	Crafty.defineScene('level', levelInit, levelOut);
 
 	function levelInit() {
-
 		Crafty.background('rgb(127,127,127)');
+
+		Crafty.audio.play("music", -1); //Play the audio file
 
 		var playerCar = Crafty.e('PlayerCar').attr({
 			x: 200,
@@ -13,41 +14,35 @@
 			z: 18
 		})
 			.addComponent('WiredHitBox')
-			.debugStroke("white")
+			.debugStroke("transparent");
 
 		Crafty.e('Track');
 
 		Crafty.e('Pause');
 
-		Crafty.e('FullScreen');
-
-		Crafty.e('EnemyCar')
-			/* Debug */
-			.addComponent('WiredHitBox')
-			.debugStroke('white')
-			.attr({
-				x: 0,
-				y: 200
-			});
-
 		Crafty.e('Points');
+
 		Crafty.e('Delay');
 
 		var playerTireLeft = Crafty.e('2D, Canvas, playerTire, playerTireLeft, SolidHitBox')
-				.attr({z: 1, x: 207, y: 358})
-				.origin('middle right')
-				.debugFill("transparent");
-		playerCar.attach(playerTireLeft)
+			.attr({z: 1, x: 207, y: 358})
+			.origin('middle right')
+			.debugFill("transparent");
+		playerCar.attach(playerTireLeft);
 
 		var playerTireRight = Crafty.e('2D, Canvas, playerTire, playerTireRight, SolidHitBox')
 			.attr({z: 1, x: 303, y: 358})
 			.origin('middle left')
 			.debugFill("transparent")
-		playerCar.attach(playerTireRight)
+		playerCar.attach(playerTireRight);
 
 		/* используйте такой формат, вместо setInterval*/
 		Crafty("Delay").get(0).delay(function () {
-			var range = null;
+			if(Crafty._current !== 'level') {
+				return;
+			}
+
+			var range = 0;
 			var trackRandomPositions = [];
 			var trackPosition = null;
 			var enemyCarsLenght = Crafty('EnemyCar').length;
@@ -74,8 +69,9 @@
 						x: trackPosition,
 						y: -Crafty.math.randomInt(Crafty.viewport.height * 1.5, Crafty.viewport.height * 2)
 					})
+					/* debug */
 					.addComponent('WiredHitBox')
-					.debugStroke('white')
+					.debugStroke('transparent')
 			}
 
 			//Удаляем неиспользуемые ссылки.
@@ -115,25 +111,26 @@
 				alpha: 0.9
 			});
 
-		var particles = Crafty.e("2D,Canvas,Particles").particles({
-			maxParticles: 25,
-			size: 8,
-			sizeRandom: 1,
-			speed: 0.7,
-			speedRandom: 0.2,
-			lifeSpan: 18,
-			lifeSpanRandom: 3,
-			angle: 90,
-			angleRandom: 0,
-			startColour: [0, 0, 0, 0.4],
-			endColour: [0, 0, 0, 0],
-			sharpness: 20,
-			sharpnessRandom: 10,
-			spread: 3,
-			duration: -1,
-			fastMode: false,
-			jitter: 0
-		})
+		var particles = Crafty.e("2D,Canvas,Particles")
+			.particles({
+				maxParticles: 25,
+				size: 8,
+				sizeRandom: 1,
+				speed: 0.7,
+				speedRandom: 0.2,
+				lifeSpan: 18,
+				lifeSpanRandom: 3,
+				angle: 90,
+				angleRandom: 0,
+				startColour: [0, 0, 0, 0.4],
+				endColour: [0, 0, 0, 0],
+				sharpness: 20,
+				sharpnessRandom: 10,
+				spread: 3,
+				duration: -1,
+				fastMode: false,
+				jitter: 0
+			})
 			.attr({
 				x: 275,
 				y: 578
@@ -148,6 +145,11 @@
 			this.destroy();
 		});
 
+		Crafty('Gamepad').each(function () {
+			this.destroy();
+		});
+
+		Crafty.audio.remove();
 	}
 
 }(Crafty));

@@ -6,25 +6,29 @@
 			type: 'car1',
 			collision: function () {
 				return [[15, 30], [115, 30], [120, 285], [10, 285]]
-			}
+			},
+			horn: 'horn1'
 		},
 		{
 			type: 'car2',
 			collision: function () {
 				return [[15, 30], [115, 30], [120, 260], [60, 280], [10, 260]]
-			}
+			},
+			horn: 'horn2'
 		},
 		{
 			type: 'car3',
 			collision: function () {
 				return [[10, 10], [115, 10], [120, 275], [10, 275]]
-			}
+			},
+			horn: 'horn3'
 		},
 		{
 			type: 'car4',
 			collision: function () {
 				return [[15, 30], [115, 30], [120, 280], [10, 280]]
-			}
+			},
+			horn: 'horn3'
 		}
 	];
 
@@ -42,15 +46,29 @@
 			if (Crafty._current !== 'level') return;
 
 			var getRandomPos = Crafty.math.randomInt(0, 1);
-			var getRandomCar = Crafty.math.randomElementOfArray(carType);
+			var currentCar = Crafty.math.randomElementOfArray(carType);
 
 			this.requires('Car, 2D, Canvas, Sprite, Collision')
-				.requires(getRandomCar.type)
-				.collision(new Crafty.polygon(getRandomCar.collision()))
+				.requires(currentCar.type)
+				.collision(new Crafty.polygon(currentCar.collision()))
 				.attr({
 					_speed : Crafty.math.randomNumber(1, 1.2)
 				})
 				.bind('RenderScene', function () {
+					var playerCar = Crafty('PlayerCar').get(0);
+					var distance = Crafty.math.distance(this.x, this.y,playerCar.x,playerCar.y);
+
+					//добавляем неного случайности величину
+					if(Crafty.math.randomInt(0,9) === 5) {
+						if(Crafty.math.withinRange(distance, 400, 500)) {
+
+							if(!Crafty.audio.isPlaying(currentCar.horn)) {
+								Crafty.audio.play(currentCar.horn, 1, 0.7);
+							}
+						}
+					}
+
+					// уничтожаем объект при выходе за сцену
 					if (this.y > Crafty.viewport.height) {
 						this.destroy();
 					}
@@ -60,7 +78,12 @@
 					this.unbind('SpeedUp');
 					this.unbind('SpeedDown');
 
-					console.log('CRASH!');
+					var self = this;
+					Crafty('Delay').get(0).delay(function() {
+						self.destroy();
+
+						console.log('CRASH!');
+					}, 3000, 1);
 				})
 				.onHit('EnemyCar', this.crash)
 				.bind('SpeedUp', this.speedUp)

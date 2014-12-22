@@ -28,53 +28,72 @@
 		 .setText('FB SHARE')
 		 /**/
 
-		/* vk btn */
 		Crafty
-			.e('2D, Canvas, share, Mouse')
+			.e('Gamepad')
+			.gamepad(0)
+			.bind('GamepadKeyOnceChange', function (e) {
+
+				switch (e && e.button) {
+					case 9:
+						Crafty.scene('level');
+						break;
+				}
+			});
+
+		/* vk btn */
+		Crafty.c('VKShareButton', {
+			url: window.location.href,//url	Link to the page to be posted.
+			title: window.document.title,//	title	Post title. If not set, title from the post page will be used.
+			description: null,//	description	Post description. If not set, description from the post page will be used.
+			image: null,//	image	Link to image of the post. If not set, image from the post page will be used.
+			noparse: false,//	If true, VK server will not make an additional request to download missing information from the posted page. If false, request will be sent always.
+
+			init: function () {
+				this.requires('2D, Canvas, share, Mouse')
+					.bind('Click', function () {
+						var href = 'http://vk.com/share.php?url=' + this.url +
+								'&title=' + this.title +
+								'&description=' + this.description +
+								'&image=' + this.image +
+								'&noparse=' + this.noparse
+							;
+
+						window.open(href);
+					})
+				;
+			}
+		});
+
+		Crafty
+			.e('VKShareButton')
 			.attr({
 				x: Crafty.viewport.width - 50,
 				y: 0,
 				w: 50,
-				h: 50
-			})
-			.bind('Click', function () {
-				var href = 'http://vkontakte.ru/share.php?url=' + window.location.href;
-				window.open(href);
+				h: 50,
+				title: 'My CanvasRacer record!',
+				description: 'record: ' + Crafty.player.getPoints() + ' points'
+				//image: Crafty.canvas.context.canvas.toDataURL("image/png")
 			})
 		;
 
 		Crafty
 			.e('Button')
 			.attr({
-				x: 150,
-				y: 150,
-				w: 50,
-				h: 50
+				x: Crafty.viewport.width / 2 - 250 / 2,
+				y: 450,
+				w: 250,
+				h: 100
 			})
 			.bind('Click', function () {
 				Crafty.scene('level');
 			})
 			.setText('Again')
-		;
-
-		/* Сохраняем данные.
-		 * Почему так? Все просто - браузерам необходимо явно разрешение на запрос геолокации.*/
-		Crafty
-			.e('Button')
-			.attr({
-				x: 150,
-				y: 450,
-				w: 50,
-				h: 50
-			})
-			.bind('Click', function () {
-				Crafty.parse.saveUserRecords(Crafty.player.getPoints(), Crafty.player.getLocation());
-			})
-			.setText('Save My Record')
+			.setSize()
 		;
 
 		Crafty
-			.e('2D, Canvas, Text')
+			.e('DefaultFont')
 			.attr({
 				x: 20,
 				y: 20,
@@ -83,39 +102,48 @@
 				w: 100
 			})
 			.textColor('#CCCCCC')
-			.text('YOUR RECORD: ' + Crafty.player.getPoints())
+			.text('YOUR RECORD: ' + Crafty.player.getPoints() + ' Points')
 		;
 
-		Crafty.e('2D, Canvas, Text')
+		Crafty
+			.e('DefaultFont')
 			.attr({
 				x: 40,
-				y: 60
+				y: 70
 			})
 			.textColor('#FFFFFF')
-			.text('Top records: ');
+			.text('Top records: ')
+		;
 
-		Crafty.parse.getUserRecords(3, function (obj) {
+		//автоматически записываем состояние гонки в БД
+		Crafty.parse.saveUserRecords(Crafty.player.getPoints(), Crafty.player.getLocation());
 
-			Crafty
-				.e('2D, Canvas, Text')
-				.attr({
-					x: 40,
-					y: 80 + 20 * obj.index,
-					z: 9,
-					h: 100,
-					w: 100
-				})
-				.textColor('#FFFFFF')
-				.text('Points ' + obj.points + ' , from ' + obj.city);
-		});
-
-
+		//выводим рекорды
+		Crafty.parse
+			.getUserRecords(3, function (obj) {
+				Crafty
+					.e('DefaultFont')
+					.attr({
+						x: 40,
+						y: 94 + 22 * obj.index,
+						z: 9,
+						h: 100,
+						w: 100
+					})
+					.textFont({
+						size: '16px'
+					})
+					.textColor('#FFFFFF')
+					.text(obj.points + ' Points ' + '(' + obj.city + ')');
+			})
+		;
 	}
 
 	function levelOut() {
-
+		Crafty('Gamepad').each(function () {
+			this.destroy();
+		});
 	}
-
 
 	//Crafty.e("InputChangeEvents");
 
@@ -183,6 +211,5 @@
 			this.trigger('change');
 		}
 	});
-
 
 }(Crafty));

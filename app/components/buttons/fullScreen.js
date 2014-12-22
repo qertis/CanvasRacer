@@ -5,19 +5,17 @@
 		_isFullScreen: false,
 
 		init: function () {
-			this.requires('Button')
+			this.requires('2D, Canvas, fullscreen, Mouse')
 				.attr({
-					x: Crafty.viewport.width - 60,
+					x: 0,
 					y: 0,
-					w: 60,
-					h: 50
+					w: 48,
+					h: 48
 				})
 				.bind('Click', function () {
 					this.fullScreenToggle();
 				})
-				.setText('Full Screen')
-				.setSize();
-
+			;
 		},
 
 		fullScreenToggle: function () {
@@ -25,10 +23,8 @@
 
 			if (this.getIsFullScreen()) {
 				this.fullScreenOn();
-				this.setText('Full Screen On')
 			} else {
 				this.fullScreenOff();
-				this.setText('Full Screen Off')
 			}
 		},
 

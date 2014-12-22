@@ -3,23 +3,6 @@
 
 	Crafty.extend({
 
-		//TODO: ...
-		gameBlur: function () {
-			document.title = 'GAME Paused';
-
-			if (!Crafty.isPaused()) {
-				Crafty.pause();
-			}
-		},
-
-		gameFocus: function () {
-			document.title = 'GAME READY';
-
-			if (Crafty.isPaused()) {
-				Crafty.pause();
-			}
-		},
-
 		player: {
 			_name: 'Player Name',
 			_points: 0,
@@ -33,19 +16,23 @@
 				return this._points;
 			},
 
+			setLocation: function(location) {
+				this._location = location;
+			},
+
 			getLocation: function () {
 				return this._location;
 			},
 
-			setMyLocation: function () {
+			getMyLocation: function (callback) {
 				navigator.geolocation.getCurrentPosition(function (pos) {
 					try {
-						Crafty.player._location = new Parse.GeoPoint(pos.coords);
+						callback({error: false, location: new Parse.GeoPoint(pos.coords)});
 					} catch (e) {
-						console.error('location getting error')
+						callback({error: e});
 					}
 				}, function (err) {
-					console.error('cannot get current position' + err)
+					callback({error: err})
 				});
 			},
 

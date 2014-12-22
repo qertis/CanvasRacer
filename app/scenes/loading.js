@@ -10,10 +10,11 @@
 
 	var assetsObj = {
 		"audio": {
-			"game_over": ["game_over.wav", "game_over.mp3", "game_over.ogg"],
-			"music": "music.ogg",
-			"power_up": "power_up.mp3",
-			"upgrade": "upgrade.wav"
+			"crash": ["crash/crash.wav"],
+			"horn1": ["horn/horn1.mp3"],
+			"horn2": ["horn/horn2.mp3"],
+			"horn3": ["horn/horn3.mp3"],
+			"music": ["music/music.ogg"]
 		},
 		"images": [
 			"game_over.png",
@@ -32,7 +33,8 @@
 					"soundOn": [1, 0],
 					"soundOff": [2, 0],
 					"play": [3, 0],
-					"share": [4, 0]
+					"share": [4, 0],
+					"fullscreen": [5, 0]
 				}
 			},
 			"vehicles.png": {
@@ -48,6 +50,13 @@
 				"map": {
 					playerTire: [0, 0]
 				}
+			},
+			"logo.png": {
+				"tile": 208,
+				"tileh": 212,
+				"map": {
+					"logo": [0, 0]
+				}
 			}
 		}
 	};
@@ -56,37 +65,42 @@
 		/* preload assets */
 		Crafty.load(assetsObj,
 			function () {
-				Crafty.scene('level')
+				Crafty('LoadingText').text('Loading complete');
+				Crafty.scene('menu');
 			},
 			function (e) {
 				Crafty('LoadingIndicator').w = Crafty.viewport.width / (100 / e.percent);
-				Crafty('LoadingText').text('Loading: ' + e.loaded + ' from: ' + e.total)
+				Crafty('LoadingText').text('Loading: ' + '(' + e.loaded + '/' + e.total + ')');
 			},
 			function (e) { //uh oh, error loading
-				console.error('error asset')
+				console.error('error')
+				console.error(e)
 			}
 		);
 	}
 
 	function levelInit() {
-
 		Crafty.background('#000000');
 
-		Crafty.e('Text, ItalicFont, LoadingText')
-			.attr({x: 0, y: 300})
+		Crafty
+			.e('DefaultFont, LoadingText')
+			.attr({x: 20, y: 300})
 			.text('Loading...')
 			.textFont({size: '20px'})
-			.textColor('#FFFFFF');
+			.textColor('#FFFFFF')
+		;
 
-		Crafty.e("2D, Canvas, Color, LoadingIndicator")
-			.color("#00FF00", 0.5)
+		Crafty
+			.e("2D, Canvas, Color, LoadingIndicator")
+			.color("#00FF00", 0.8)
 			.attr({
 				x: 0,
 				y: 330,
 				z: 9,
 				w: Crafty.viewport.width,
-				h: 15
-			});
+				h: 3
+			})
+		;
 
 		loadAssets();
 

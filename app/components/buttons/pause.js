@@ -9,6 +9,7 @@
 
 			this._isPaused = !this._isPaused;
 
+			Crafty.audio.togglePause('music');
 			this.toggleFrame();
 		},
 
@@ -17,25 +18,22 @@
 		},
 
 		toggleFrame: function () {
-			// некрасивое решение (ХАК)
-			// если стоит пауза а вам надо поставить другой фрейм -
-			// надо запустить таймаут (очень рискованно!) с маленьким временем и затем
-			// явно запустить следующий шаг перерисовки сцены
-			setTimeout(function () {
-				Crafty.pause(this._isPaused);
-			}.bind(this), 15);
+			Crafty.pause(this._isPaused);
+			Crafty.timer.simulateFrames(0, 30);
 		},
 
 		init: function () {
+			var self = this;
+
 			this.requires('2D, Canvas, pause, Mouse')
 				.attr({
 					z: 999
 				})
 				.bind('Click', function (MouseEvent) {
 					this.togglePause();
-				});
+				})
+			;
 
-			var self = this;
 			Crafty.uniqueBind('Pause', function () {
 				self._isPaused = true;
 			});
