@@ -7,17 +7,33 @@
 		Crafty.background("#000000");
 
 		Crafty.pause(true);
-		Crafty.player.getMyLocation(function (obj) {
+
+		var locationCallback = function (obj) {
 			if (obj.err) {
 				throw err;
 			} else if (obj.location) {
 				Crafty.player.setLocation(obj.location);
 
 				Crafty.pause(false);
-			} else {
-				throw 'Unknows myLocation error';
+			} else if(obj.error) {
+				/* Если происходит ошибка - пробуем заново */
+				if(obj.error.code == obj.error.PERMISSION_DENIED) {
+					console.log(obj.error);
+
+					setTimeout(function() {
+						Crafty.player.getMyLocation(locationCallback);
+					}, 2000);
+				} else if(obj.error.code == obj.error.POSITION_UNAVAILABLE) {
+					console.log(obj.error);
+
+					setTimeout(function() {
+						Crafty.player.getMyLocation(locationCallback);
+					}, 1000);
+				}
 			}
-		});
+		};
+
+		Crafty.player.getMyLocation(locationCallback);
 
 		var video = Crafty.e('Video').attr({
 				poster: 'content/images/menu.jpg',

@@ -40,6 +40,8 @@
 		},
 
 		setSpeed: function (value) {
+			if(Crafty.isPaused()) return;
+
 			if (value < 0) {
 				if (this._speed > this._minSpeed) {
 					this._speed += value;

@@ -75,7 +75,6 @@
 						}
 
 						if (data.tiltFB < 0) {
-
 							this.getTrack().setSpeed(this.UPSPEED)
 						} else if (data.tiltFB > 0) {
 							this.getTrack().setSpeed(this.DOWNSPEED)
@@ -96,18 +95,6 @@
 
 					this.tween({rotation: 0}, 200);
 				})
-				.bind('RenderScene', function () {
-					/* Проверяем выход за сцену
-					 * Не даем авто выйти за сцену меняя его направление на противоположное */
-					switch (this.getOutScreenX()) {
-						case -1:
-							this.move('w', -this._speed.x - 1);
-							break;
-						case 1:
-							this.move('w', this._speed.x + 1);
-							break;
-					}
-				})
 				.bind('EnterFrame', function () {
 					var self = this;
 
@@ -120,12 +107,25 @@
 					this.getPlayerTireLeft().attr({
 						rotation: self.rotation * 2.4
 					});
-
 					this.getPlayerTireRight().attr({
 						rotation: self.rotation * 2.4
 					});
 				})
-				.bind('NewDirection', function () {
+				.bind('Moved', function() {
+					/* Проверяем выход за сцену
+					 * Не даем авто выйти за сцену меняя его направление на противоположное */
+					switch (this.getOutScreenX()) {
+						case -1:
+							this.move('w', -4);
+							break;
+						case 1:
+							this.move('w', 4);
+							break;
+						default :
+							break;
+					}
+				})
+				.bind('NewDirection', function (pos) {
 					/* Проверяем нажатие на клавиши
 					 * В зависимости от нажатых клавиш включаем Tween */
 					if (this.isKeyDown('LEFT_ARROW')) {

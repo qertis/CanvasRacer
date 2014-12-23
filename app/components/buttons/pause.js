@@ -15,13 +15,6 @@
 					this.togglePause();
 				})
 			;
-
-			Crafty.uniqueBind('Pause', function () {
-				self._isPaused = true;
-			});
-			Crafty.uniqueBind('Unpause', function () {
-				self._isPaused = false;
-			});
 		},
 
 		togglePause: function () {

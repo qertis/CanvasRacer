@@ -20,7 +20,7 @@
 
 		getOutScreenX: function () {
 			/*проверка на границы со сценой*/
-			if (this.x < 0) {
+			if (this.x <= 0) {
 				return -1;
 			}
 

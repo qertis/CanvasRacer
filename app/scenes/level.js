@@ -9,36 +9,55 @@
 		Crafty.audio.play("music", -1); //Play the audio file
 
 		var playerCar = Crafty.e('PlayerCar').attr({
-			x: 200,
-			y: 300,
-			z: 18
-		})
-			.addComponent('WiredHitBox')
-			.debugStroke("transparent");
+				x: 200,
+				y: 300,
+				z: 18
+			})
+		/* debug */
+		//.addComponent('WiredHitBox')
+		//.debugStroke("transparent")
+			;
 
 		Crafty.e('Track');
 
 		Crafty.e('Pause');
 
+		Crafty.uniqueBind('Pause', function () {
+			/* обнуляем направление при нажатии на кнопку паузы */
+			Crafty('PlayerCar').attr({
+				_speed: {x: 0, y: 0},
+				_movement: {x: 0, y: 0}
+			});
+		});
+
+		Crafty.uniqueBind('Unpause', function () {
+		});
+
 		Crafty.e('Points');
 
 		Crafty.e('Delay');
 
-		var playerTireLeft = Crafty.e('2D, Canvas, playerTire, playerTireLeft, SolidHitBox')
-			.attr({z: 1, x: 207, y: 358})
-			.origin('middle right')
-			.debugFill("transparent");
+		var playerTireLeft = Crafty.e('2D, Canvas, playerTire, playerTireLeft')
+				.attr({z: 1, x: 207, y: 358})
+				.origin('middle right')
+		/* debug */
+		//.addComponent('SolidHitBox')
+		//.debugFill("transparent")
+			;
 		playerCar.attach(playerTireLeft);
 
-		var playerTireRight = Crafty.e('2D, Canvas, playerTire, playerTireRight, SolidHitBox')
-			.attr({z: 1, x: 303, y: 358})
-			.origin('middle left')
-			.debugFill("transparent")
+		var playerTireRight = Crafty.e('2D, Canvas, playerTire, playerTireRight')
+				.attr({z: 1, x: 303, y: 358})
+				.origin('middle left')
+		/* debug */
+		//.addComponent('SolidHitBox')
+		//.debugFill("transparent")
+			;
 		playerCar.attach(playerTireRight);
 
 		/* используйте такой формат, вместо setInterval*/
 		Crafty("Delay").get(0).delay(function () {
-			if(Crafty._current !== 'level') {
+			if (Crafty._current !== 'level') {
 				return;
 			}
 
@@ -67,20 +86,19 @@
 				Crafty.e('EnemyCar')
 					.attr({
 						x: trackPosition,
-						y: -Crafty.math.randomInt(Crafty.viewport.height * 1.5, Crafty.viewport.height * 2)
+						y: -Crafty.math.randomInt(Crafty.viewport.height * 1.5, Crafty.viewport.height * 3)
 					})
 					/* debug */
-					.addComponent('WiredHitBox')
-					.debugStroke('transparent')
+					//.addComponent('WiredHitBox')
+					//.debugStroke('transparent')
+				;
 			}
 
 			//Удаляем неиспользуемые ссылки.
 			enemyCarsLenght = trackSpeed = range = trackRandomPositions = trackPosition = null;
-		}, 1200, -1, function () {
-			//console.log("delay finished");
-		});
+		}, 1200, -1);
 
-		Crafty.e('2D, Canvas, Image, SolidHitBox')
+		Crafty.e('2D, Canvas, Image')
 			.image("content/images/speedometer/arrow.png", "no-repeat")
 			.attr({
 				x: Crafty.viewport.width / 2 - 52,
@@ -98,9 +116,13 @@
 
 				this.rotation = trackCurrentSpeed / trackMaxSpeed * maxSpeedInfo;
 			})
-			.debugFill("transparent");
+			/* debug */
+			//.addComponent('SolidHitBox')
+			//.debugFill("transparent")
+		;
 
-		Crafty.e('2D, Canvas, Image')
+		Crafty
+			.e('2D, Canvas, Image')
 			.image("content/images/speedometer/speedometer.png", "no-repeat")
 			.attr({
 				x: Crafty.viewport.width / 2 - 150 / 2,
@@ -109,32 +131,35 @@
 				w: 150,
 				h: 150,
 				alpha: 0.9
-			});
-
-		var particles = Crafty.e("2D,Canvas,Particles")
-			.particles({
-				maxParticles: 25,
-				size: 8,
-				sizeRandom: 1,
-				speed: 0.7,
-				speedRandom: 0.2,
-				lifeSpan: 18,
-				lifeSpanRandom: 3,
-				angle: 90,
-				angleRandom: 0,
-				startColour: [0, 0, 0, 0.4],
-				endColour: [0, 0, 0, 0],
-				sharpness: 20,
-				sharpnessRandom: 10,
-				spread: 3,
-				duration: -1,
-				fastMode: false,
-				jitter: 0
 			})
-			.attr({
-				x: 275,
-				y: 578
-			});
+		;
+
+		var particles = Crafty
+				.e("2D,Canvas,Particles")
+				.particles({
+					maxParticles: 25,
+					size: 8,
+					sizeRandom: 1,
+					speed: 0.7,
+					speedRandom: 0.2,
+					lifeSpan: 18,
+					lifeSpanRandom: 3,
+					angle: 90,
+					angleRandom: 0,
+					startColour: [0, 0, 0, 0.4],
+					endColour: [0, 0, 0, 0],
+					sharpness: 20,
+					sharpnessRandom: 10,
+					spread: 3,
+					duration: -1,
+					fastMode: false,
+					jitter: 0
+				})
+				.attr({
+					x: 275,
+					y: 578
+				})
+			;
 
 		playerCar.attach(particles);
 	}
