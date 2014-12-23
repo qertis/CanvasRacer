@@ -1,14 +1,14 @@
 @media only screen
 and (orientation: landscape) {
 	#rotate-error {
-		color: red;
+		display: block;
+		height: 100vh;
+		width: auto;
+		line-height: 100vh;
 		font-size: larger;
 		text-align: center;
-		height: 100vh;
-		line-height: 100vh;
-		width: 100vw;
 		transform: rotateZ(90deg);
-		display: block;
+		color: red;
 	}
 
 	#canvasRacer {
