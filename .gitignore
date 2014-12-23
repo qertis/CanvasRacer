@@ -1,5 +1,6 @@
 *.name
 .idea
 .idea/
-bower_components/
 .idea/CanvasRacer.iml
+bower_components/
+README.md
