@@ -1,7 +1,9 @@
 CanvasRacer
 ===========
 
-crafty.js canvas racing
+Tutorial Canvas racing on Crafty.js 
 
+Install:
+bower install
 
-DEMO: http://games.baskovsky.ru/labs/craftyjs/canvas_racer/
+DEMO: http://goo.gl/Te4Bd1
