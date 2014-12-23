@@ -3,32 +3,8 @@
 
 	var APPLICATION_ID = "bn9Mvt4trLBqOE9zu6OisSdEvnd7m7o9i2Eqzs7k";
 	var JAVASCRIPT_KEY = "eCVDbPlzgDF6xDNnCduQvwSZB2iQzfzqNMXkuyPT";
-	var GEOCODE_PROVIDER = "http://geocode-maps.yandex.ru/1.x/?format=json&geocode=";
 
 	Crafty.extend({
-
-		geo: {
-			//yandex geocoding. Get city
-			getCity: function (geoPoint, callback) {
-				if (!geoPoint || !geoPoint.latitude || !geoPoint.longitude) return;
-
-				var latitude = geoPoint.latitude;
-				var longitude = geoPoint.longitude;
-
-				var url = GEOCODE_PROVIDER + longitude + ',' + latitude;
-
-				var xhr = new XMLHttpRequest();
-				xhr.open('GET', url);
-				xhr.onload = function (e) {
-					var res = JSON.parse(this.response);
-					var geoObject = res.response.GeoObjectCollection.featureMember[0].GeoObject;
-					var description = geoObject.description || geoObject.name;
-
-					if (callback) callback(description);
-				};
-				xhr.send();
-			}
-		},
 
 		parse: {
 			_userRecords: null,
@@ -51,15 +27,15 @@
 			},
 
 			saveUserRecords: function (points, location) {
+				var self = this;
 				var UserRecords = Parse.Object.extend("UserRecords");
 				var userRecords = this._userRecords = this._userRecords || new UserRecords();
+				var recordObj = this._userRecordObjectId || null;
 
 				userRecords.set("points", points);
 				userRecords.set("location", location);
 
 				/* обновляем если существует в localStorage иначе создаем новый */
-				var self = this;
-				var recordObj = this._userRecordObjectId || null;
 				userRecords.save(recordObj, {
 					success: function (userRecord) {
 						// Execute any logic that should take place after the object is saved.

@@ -33,6 +33,7 @@
 				'app/components/buttons/inputText.js',
 				'app/components/buttons/VKShareButton.js',
 				/* extends */
+				'app/extends/geo.js',
 				'app/extends/player.js',
 				'app/extends/parse.js',
 				/* scenes */
