@@ -3,8 +3,7 @@
 @import url('fonts.css');
 
 /* mobile */
-@import url('nexus7.css');
-@import url('iphone6.css');
+@import url('screen.css');
 
 html,
 body {
@@ -12,4 +11,11 @@ body {
 
     width: 100vw !important;
     height: 100vh !important;
+}
+
+#canvasRacer {
+    display: block;
+    position: absolute;
+    top: calc(100vh / 2 - 640px /2);
+    left: calc(100vw /2 - 360px /2);
 }

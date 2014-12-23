@@ -1,9 +1,7 @@
 (function (window) {
     'use strict';
 
-    /*
-     * Override alert
-     * */
+    /* Override alert */
     if ('alert' in window) {
         window.alert = function (msg) {
             console.log(msg);
@@ -13,4 +11,5 @@
             }
         }
     }
+
 }(window));

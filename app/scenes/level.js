@@ -77,7 +77,7 @@
 			//Удаляем неиспользуемые ссылки.
 			enemyCarsLenght = trackSpeed = range = trackRandomPositions = trackPosition = null;
 		}, 1200, -1, function () {
-			console.log("delay finished");
+			//console.log("delay finished");
 		});
 
 		Crafty.e('2D, Canvas, Image, SolidHitBox')
@@ -140,7 +140,6 @@
 	}
 
 	function levelOut() {
-
 		Crafty('Delay').each(function () {
 			this.destroy();
 		});

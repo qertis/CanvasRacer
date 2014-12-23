@@ -1,0 +1,28 @@
+@media only screen
+and (orientation: landscape) {
+	#rotate-error {
+		color: red;
+		font-size: larger;
+		text-align: center;
+		height: 100vh;
+		line-height: 100vh;
+		width: 100vw;
+		transform: rotateZ(90deg);
+		display: block;
+	}
+
+	#canvasRacer {
+		display: none !important;
+	}
+}
+
+@media only screen
+and (orientation: portrait) {
+	#rotate-error {
+		display: none;
+	}
+
+	#canvasRacer {
+		display: block;
+	}
+}

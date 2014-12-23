@@ -2,7 +2,11 @@
 
 	Crafty.c('Car', {
 		_speed: 0.0,
-		movingBottom: false,
+
+		init: function () {
+			this.requires('2D, Canvas, Tween, Collision, Sprite')
+				.origin('top center')
+		},
 
 		crash: function (cars) {
 			cars.map(function (e) {

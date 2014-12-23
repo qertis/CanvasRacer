@@ -20,14 +20,14 @@
 		});
 
 		var video = Crafty.e('Video').attr({
-			poster: 'content/images/menu.jpg',
-			videos: {
-				mp4: 'content/video/tunnel_animation.mp4'
-			},
-			once: false
-		}).createVideo()
-			.setInnerScreenStyle();
-		;
+				poster: 'content/images/menu.jpg',
+				videos: {
+					mp4: 'content/video/tunnel_animation.mp4'
+				},
+				once: false
+			}).createVideo()
+				.setInnerScreenStyle()
+			;
 
 		//HACK чтобы видео отображалось на заднем экране
 		setTimeout(function () {
@@ -39,14 +39,13 @@
 		Crafty.e('Gamepad')
 			.gamepad(0)
 			.bind('GamepadKeyOnceChange', function (e) {
-
 				switch (e && e.button) {
 					case 9:
-						Crafty.enterScene('loading')
-
+						Crafty.enterScene('loading');
 						break;
 				}
-			});
+			})
+		;
 
 		Crafty.e('Button')
 			.attr({
@@ -57,7 +56,7 @@
 				z: 999
 			})
 			.bind('Click', function () {
-				if(Crafty.player.getLocation()) {
+				if (Crafty.player.getLocation()) {
 					Crafty.enterScene('level')
 				}
 			})
@@ -87,7 +86,6 @@
 			.trigger('TweenEnd')//начинаем запускать твины'
 		;
 
-
 		Crafty
 			.e('ItalicFont')
 			.attr({
@@ -98,9 +96,8 @@
 			.textFont({
 				size: '14px'
 			})
-			.text('author: Denis Bakovsky')
+			.text('author: Denis Baskovsky')
 		;
-		//Crafty.configData.version
 	}
 
 	function levelOut() {
@@ -111,39 +108,5 @@
 			this.destroy();
 		})
 	}
-
-	// Components ----------------------------------------------------------------
-	Crafty.c('Button', {
-		_button: null,
-
-		init: function () {
-			this.requires('HTML, Mouse');
-			var button = document.createElement('button');
-
-			button.style.color = '#333';
-			button.style.backgroundColor = 'ghostwhite';
-			button.style.padding = '4px 12px';
-			button.style.border = 'none';
-
-			this._button = button;
-		},
-
-		setSize: function (width, height) {
-			this._button.style.width = width || this.w + 'px';
-			this._button.style.height = height || this.h + 'px';
-
-			//явно вызываем для отрисовки CSS
-			this.replace(this._button.outerHTML);
-
-			return this;
-		},
-
-		setText: function (text) {
-			this._button.textContent = text;
-			this.replace(this._button.outerHTML);
-
-			return this;
-		}
-	});
 
 }(Crafty));

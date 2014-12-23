@@ -6,35 +6,7 @@
 		_minSpeed: 2.0,
 		_maxSpeed: 10.0,
 		_distance: 0.0,
-		maxSpeedInfo: 240,
-
-		getDistance: function () {
-			return Math.round(this._distance);
-		},
-
-		getMaxSpeedInfo: function() {
-			return this.maxSpeedInfo;
-		},
-
-		setSpeed: function (value) {
-			if (value < 0) {
-				if (this._speed > this._minSpeed) {
-					this._speed += value;
-				}
-			} else if (value > 0) {
-				if (this._speed < this._maxSpeed) {
-					this._speed += value;
-				}
-			}
-		},
-
-		getSpeed: function () {
-			return this._speed;
-		},
-
-		getMaxSpeed: function () {
-			return this._maxSpeed;
-		},
+		_maxSpeedInfo: 240,
 
 		init: function () {
 			var defaultY = -360;
@@ -57,7 +29,36 @@
 						this.y = defaultY;
 				})
 			;
+		},
+
+		getDistance: function () {
+			return Math.round(this._distance);
+		},
+
+		getMaxSpeedInfo: function () {
+			return this._maxSpeedInfo;
+		},
+
+		setSpeed: function (value) {
+			if (value < 0) {
+				if (this._speed > this._minSpeed) {
+					this._speed += value;
+				}
+			} else if (value > 0) {
+				if (this._speed < this._maxSpeed) {
+					this._speed += value;
+				}
+			}
+		},
+
+		getSpeed: function () {
+			return this._speed;
+		},
+
+		getMaxSpeed: function () {
+			return this._maxSpeed;
 		}
+
 	});
 
 }(Crafty));

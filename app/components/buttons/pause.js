@@ -4,24 +4,6 @@
 	Crafty.c('Pause', {
 		_isPaused: false,
 
-		togglePause: function () {
-			this.toggleComponent('pause', 'play');
-
-			this._isPaused = !this._isPaused;
-
-			Crafty.audio.togglePause('music');
-			this.toggleFrame();
-		},
-
-		getIsPaused: function () {
-			return this._isPaused;
-		},
-
-		toggleFrame: function () {
-			Crafty.pause(this._isPaused);
-			Crafty.timer.simulateFrames(0, 30);
-		},
-
 		init: function () {
 			var self = this;
 
@@ -40,6 +22,24 @@
 			Crafty.uniqueBind('Unpause', function () {
 				self._isPaused = false;
 			});
+		},
+
+		togglePause: function () {
+			this.toggleComponent('pause', 'play');
+
+			this._isPaused = !this._isPaused;
+
+			Crafty.audio.togglePause('music');
+			this.toggleFrame();
+		},
+
+		getIsPaused: function () {
+			return this._isPaused;
+		},
+
+		toggleFrame: function () {
+			Crafty.pause(this._isPaused);
+			Crafty.timer.simulateFrames(0, 30);
 		}
 
 	});

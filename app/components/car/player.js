@@ -5,15 +5,18 @@
 		UPSPEED: 0.02,
 		DOWNSPEED: -0.04,
 
+		_track: null,
+		_playerTireLeft: null,
+		_playerTireRight: null,
+
 		init: function () {
 			this
-				.requires('Car, 2D, Canvas, playerCar, Sprite, Tween, Multiway, Collision')
+				.requires('Car, playerCar, Multiway')
 				.requires('Keyboard, Gamepad, DeviceOrientation')
 				.attr({
 					z: 9,
 					crashed: false
 				})
-				.origin('top center')
 				.collision(new Crafty.polygon([15, 30], [115, 30], [120, 275], [10, 275]))
 				.multiway({x: 3, y: 0}, {
 					LEFT_ARROW: -180,
@@ -23,10 +26,10 @@
 				.bind('GamepadKeyChange', function (e) {
 					switch (e && e.button) {
 						case 0:
-							Crafty('Track').setSpeed(this.UPSPEED);
+							this.getTrack().setSpeed(this.UPSPEED);
 							break;
 						case 1:
-							Crafty('Track').setSpeed(this.DOWNSPEED);
+							this.getTrack().setSpeed(this.DOWNSPEED);
 							break;
 					}
 				})
@@ -72,9 +75,10 @@
 						}
 
 						if (data.tiltFB < 0) {
-							Crafty('Track').setSpeed(this.UPSPEED)
+
+							this.getTrack().setSpeed(this.UPSPEED)
 						} else if (data.tiltFB > 0) {
-							Crafty('Track').setSpeed(this.DOWNSPEED)
+							this.getTrack().setSpeed(this.DOWNSPEED)
 						}
 					}
 				})
@@ -108,15 +112,16 @@
 					var self = this;
 
 					if (this.isKeyDown('UP_ARROW')) {
-						Crafty('Track').setSpeed(this.UPSPEED);
+						this.getTrack().setSpeed(this.UPSPEED);
 					} else if (this.isKeyDown('DOWN_ARROW')) {
-						Crafty('Track').setSpeed(this.DOWNSPEED);
+						this.getTrack().setSpeed(this.DOWNSPEED);
 					}
 
-					Crafty('playerTireLeft').attr({
+					this.getPlayerTireLeft().attr({
 						rotation: self.rotation * 2.4
 					});
-					Crafty('playerTireRight').attr({
+
+					this.getPlayerTireRight().attr({
 						rotation: self.rotation * 2.4
 					});
 				})
@@ -150,7 +155,20 @@
 					}
 				})
 			;
+		},
+
+		getTrack: function () {
+			return this._track || (this._track = Crafty('Track').get(0));
+		},
+
+		getPlayerTireLeft: function () {
+			return this._playerTireLeft || (this._playerTireLeft = Crafty('playerTireLeft').get(0));
+		},
+
+		getPlayerTireRight: function () {
+			return this._playerTireRight || (this._playerTireRight = Crafty('playerTireRight').get(0));
 		}
+
 	});
 
 }(Crafty));

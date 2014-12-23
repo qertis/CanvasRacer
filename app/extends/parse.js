@@ -52,8 +52,7 @@
 
 			saveUserRecords: function (points, location) {
 				var UserRecords = Parse.Object.extend("UserRecords");
-				this._userRecords = this._userRecords || new UserRecords();
-				var userRecords = this._userRecords;
+				var userRecords = this._userRecords = this._userRecords || new UserRecords();
 
 				userRecords.set("points", points);
 				userRecords.set("location", location);
@@ -87,6 +86,7 @@
 			getUserRecords: function (limit, callback) {
 				var UserRecords = Parse.Object.extend("UserRecords");
 				var query = new Parse.Query(UserRecords);
+
 				query.descending("points");
 				query.limit(limit);
 				query.find({
@@ -94,6 +94,8 @@
 						results.forEach(function (elem, index) {
 							var city = elem.get('city');
 							var points = elem.get('points');
+
+							if(!city || !points) return;
 
 							if (callback) {
 								callback({

@@ -33,36 +33,27 @@
 	];
 
 	Crafty.c('EnemyCar', {
-
-		speedUp: function () {
-			this.y += this._speed + Crafty('Track').getSpeed();
-		},
-
-		speedDown: function () {
-			this.y -= this._speed + Crafty('Track').getSpeed();
-		},
-
 		init: function () {
 			if (Crafty._current !== 'level') return;
 
 			var getRandomPos = Crafty.math.randomInt(0, 1);
 			var currentCar = Crafty.math.randomElementOfArray(carType);
 
-			this.requires('Car, 2D, Canvas, Sprite, Collision')
+			this.requires('Car')
 				.requires(currentCar.type)
 				.collision(new Crafty.polygon(currentCar.collision()))
 				.attr({
-					_speed : Crafty.math.randomNumber(1, 1.2)
+					_speed: Crafty.math.randomNumber(1, 1.2)
 				})
 				.bind('RenderScene', function () {
 					var playerCar = Crafty('PlayerCar').get(0);
-					var distance = Crafty.math.distance(this.x, this.y,playerCar.x,playerCar.y);
+					var distance = Crafty.math.distance(this.x, this.y, playerCar.x, playerCar.y);
 
 					//добавляем неного случайности величину
-					if(Crafty.math.randomInt(0,9) === 5) {
-						if(Crafty.math.withinRange(distance, 400, 500)) {
+					if (Crafty.math.randomInt(0, 9) === 5) {
+						if (Crafty.math.withinRange(distance, 400, 500)) {
 
-							if(!Crafty.audio.isPlaying(currentCar.horn)) {
+							if (!Crafty.audio.isPlaying(currentCar.horn)) {
 								Crafty.audio.play(currentCar.horn, 1, 0.7);
 							}
 						}
@@ -79,19 +70,36 @@
 					this.unbind('SpeedDown');
 
 					var self = this;
-					Crafty('Delay').get(0).delay(function() {
+					Crafty('Delay').get(0).delay(function () {
 						self.destroy();
 
-						console.log('CRASH!');
 					}, 3000, 1);
 				})
 				.onHit('EnemyCar', this.crash)
+				.onHit('PlayerCar', function (obj) {
+					if (!this.destroyer) {
+						this.unbind('SpeedUp');
+						this.unbind('SpeedDown');
+
+						this.tween({ rotation: Crafty.math.randomNumber(- 20, 20) }, 1000);
+
+						this.destroyer = true;
+					}
+				})
 				.bind('SpeedUp', this.speedUp)
 				.bind('SpeedDown', this.speedDown)
 				.bind('EnterFrame', function () {
 					this.trigger('SpeedUp');
 				})
 			;
+		},
+
+		speedUp: function () {
+			this.y += this._speed + Crafty('Track').getSpeed();
+		},
+
+		speedDown: function () {
+			this.y -= this._speed + Crafty('Track').getSpeed();
 		}
 
 	});

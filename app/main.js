@@ -13,8 +13,7 @@
 				/* controls */
 				'app/components/controls/keyboard.js',
 				'app/components/controls/gamepad.js',
-				'app/components/controls/touch.js',
-				'app/components/controls/devieOrientation.js',
+				'app/components/controls/deviceOrientation.js',
 				/* debug */
 				'app/components/debug/debug.js',
 				/* fonts */
@@ -29,11 +28,13 @@
 				'app/components/video/video.js',
 				/* buttons */
 				'app/components/buttons/pause.js',
+				'app/components/buttons/Button.js',
 				'app/components/buttons/fullScreen.js',
+				'app/components/buttons/inputText.js',
+				'app/components/buttons/VKShareButton.js',
 				/* extends */
 				'app/extends/player.js',
 				'app/extends/parse.js',
-				'app/handlers/window/load.js',
 				/* scenes */
 				'app/scenes/game_over.js',
 				'app/scenes/loading.js',
@@ -43,7 +44,6 @@
 				'app/utils/utils.js'
 			]))
 			.done(function () {
-				console.log('components loaded');
 				//console.log(JSON.stringify(arguments, null, 2));
 			})
 			.then(function () {
@@ -72,16 +72,12 @@
 		if (!Crafty.support.canvas) {
 			throw 'Canvas is not supported!'
 		}
-
 		if (!Crafty.support.audio) {
 			throw 'Audio is not supported!'
 		}
 
 		Crafty.init(360, 640, 'canvasRacer');
 		Crafty.canvas.init();
-		Crafty.pixelart(true);
-
-		//debugger;
 
 		Crafty.background('#000000');
 		Crafty.e('Text, ItalicFont')
