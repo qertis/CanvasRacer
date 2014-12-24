@@ -14,6 +14,10 @@
 			} else if (obj.location) {
 				Crafty.player.setLocation(obj.location);
 
+				Crafty('LoadingMessage').each(function() {
+					this.destroy();
+				});
+
 				Crafty.pause(false);
 			} else if(obj.error) {
 				/* Если происходит ошибка - пробуем заново */
@@ -45,11 +49,6 @@
 				.setInnerScreenStyle()
 			;
 
-		//HACK чтобы видео отображалось на заднем экране
-		setTimeout(function () {
-			Crafty.stage.inner.style.zIndex = 0;
-		}, 50);
-
 		Crafty.e('FullScreen');
 
 		Crafty.e('Gamepad')
@@ -57,7 +56,7 @@
 			.bind('GamepadKeyOnceChange', function (e) {
 				switch (e && e.button) {
 					case 9:
-						Crafty.enterScene('loading');
+						Crafty.enterScene('level');
 						break;
 				}
 			})
@@ -114,6 +113,28 @@
 			})
 			.text('author: Denis Baskovsky')
 		;
+
+		Crafty.e('2D, Canvas, Color, LoadingMessage')
+			.attr({
+				w:Crafty.viewport.width,
+				h: Crafty.viewport.height,
+				z: 998
+			})
+			.color('black', 0.5)
+		;
+
+		Crafty
+			.e('DefaultFont, LoadingMessage')
+			.attr({
+				x: Crafty.viewport.width / 2,
+				y: Crafty.viewport.height / 2,
+				w: Crafty.viewport.width,
+				h: Crafty.viewport.height,
+				z: 999
+			})
+			.textColor('#CCCCCC')
+			.text('Please wait...')
+		;
 	}
 
 	function levelOut() {
@@ -122,7 +143,7 @@
 		});
 		Crafty('Gamepad').each(function () {
 			this.destroy();
-		})
+		});
 	}
 
 }(Crafty));

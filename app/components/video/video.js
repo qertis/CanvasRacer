@@ -57,6 +57,10 @@
 			}
 
 			Crafty.stage.inner.appendChild(this.videoElem);
+
+			setTimeout(function () {
+				Crafty.stage.inner.style.zIndex = 0;
+			}, 100);
 		},
 
 		createVideo: function () {

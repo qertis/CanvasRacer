@@ -23,14 +23,23 @@
 		Crafty.e('Pause');
 
 		Crafty.uniqueBind('Pause', function () {
-			/* обнуляем направление при нажатии на кнопку паузы */
-			Crafty('PlayerCar').attr({
-				_speed: {x: 0, y: 0},
-				_movement: {x: 0, y: 0}
-			});
+			var playerCar = Crafty('PlayerCar').get(0);
+
+			if (playerCar) {
+				/* обнуляем направление при нажатии на кнопку паузы */
+				playerCar.attr({
+					_speed: {x: 0, y: 0},
+					_movement: {x: 0, y: 0}
+				});
+			}
 		});
 
 		Crafty.uniqueBind('Unpause', function () {
+			var playerCar = Crafty('PlayerCar').get(0);
+
+			if (playerCar) {
+				playerCar.setCurrentSpeed();
+			}
 		});
 
 		Crafty.e('Points');
@@ -67,12 +76,12 @@
 			var enemyCarsLenght = Crafty('EnemyCar').length;
 			var trackSpeed = Crafty('Track').getSpeed();
 
-			// не более двух машин на сцене
-			if (enemyCarsLenght >= 2) {
+			// ограничение количества машин на сцене
+			if (enemyCarsLenght >= 4) {
 				return;
 			}
 
-			//Чем больше скорость у персонажа - тем выше вероятность создания врага)
+			// Чем больше скорость у персонажа - тем выше вероятность создания врага)
 			range = Crafty.math.randomNumber(0, (Crafty.viewport.height * 2) - (trackSpeed * 3));
 
 			if (Crafty.math.withinRange(range, 0, Crafty.viewport.height)) {
@@ -86,7 +95,7 @@
 				Crafty.e('EnemyCar')
 					.attr({
 						x: trackPosition,
-						y: -Crafty.math.randomInt(Crafty.viewport.height * 1.5, Crafty.viewport.height * 3)
+						y: -Crafty.math.randomInt(Crafty.viewport.height * 2.5, Crafty.viewport.height * 3)
 					})
 					/* debug */
 					//.addComponent('WiredHitBox')

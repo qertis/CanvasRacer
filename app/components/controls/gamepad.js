@@ -24,6 +24,7 @@
 			if (gamepad) {
 				if (Crafty.isPaused()) return;
 
+				this._timestamp = gamepad.timestamp;
 				this._emitGamepadEvents(gamepad);
 			}
 		},
@@ -32,12 +33,10 @@
 			for (var i = 0; i < gamepad.buttons.length; i++) {
 				if (gamepad.buttons[i] && gamepad.buttons[i].pressed && gamepad.buttons[i].value == 1) {
 					if (this._buttonsState[i] && gamepad.buttons[i] == this._buttonsState[i]) {
-
 						this.trigger('GamepadKeyOnceChange', {
 							button: i,
 							value: gamepad.buttons[i].value
 						});
-
 						break;
 					}
 				}
@@ -49,11 +48,14 @@
 		_emitGamepadEvents: function (gamepad) {
 			for (var i = 0; i < gamepad.buttons.length; i++) {
 				if (gamepad.buttons[i]) {
-					if (gamepad.buttons[i].pressed && gamepad.buttons[i].value != 0) {
+					if (gamepad.buttons[i].pressed && gamepad.buttons[i].value !== 0) {
+
 						this.trigger('GamepadKeyChange', {
 							button: i,
 							value: gamepad.buttons[i].value
 						});
+
+						break;
 					}
 				}
 			}
@@ -64,6 +66,8 @@
 						axis: j,
 						value: gamepad.axes[j]
 					});
+
+					break;
 				}
 			}
 		},
@@ -87,6 +91,7 @@
 
 				window.requestAnimationFrame(step);
 			}
+
 			window.requestAnimationFrame(step);
 
 			return this;

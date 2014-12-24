@@ -9,6 +9,11 @@
 		_playerTireLeft: null,
 		_playerTireRight: null,
 
+		__speed: {
+			x: 3,
+			y: 0
+		},
+
 		init: function () {
 			this
 				.requires('Car, playerCar, Multiway')
@@ -18,7 +23,7 @@
 					crashed: false
 				})
 				.collision(new Crafty.polygon([15, 30], [115, 30], [120, 275], [10, 275]))
-				.multiway({x: 3, y: 0}, {
+				.multiway(this.__speed, {
 					LEFT_ARROW: -180,
 					RIGHT_ARROW: 0
 				})
@@ -89,6 +94,8 @@
 					} else if (this._movement.y > 0) {
 						this.tween({rotation: rotation}, time || 500);
 					}
+
+					this.trigger('Moved');
 				})
 				.bind('TurnStop', function () {
 					if (this.crashed) return;
@@ -111,7 +118,7 @@
 						rotation: self.rotation * 2.4
 					});
 				})
-				.bind('Moved', function() {
+				.bind('Moved', function () {
 					/* Проверяем выход за сцену
 					 * Не даем авто выйти за сцену меняя его направление на противоположное */
 					switch (this.getOutScreenX()) {
@@ -167,6 +174,10 @@
 
 		getPlayerTireRight: function () {
 			return this._playerTireRight || (this._playerTireRight = Crafty('playerTireRight').get(0));
+		},
+
+		setCurrentSpeed: function () {
+			this._speed = this.__speed;
 		}
 
 	});
