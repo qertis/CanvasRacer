@@ -111,12 +111,17 @@
 						this.getTrack().setSpeed(this.DOWNSPEED);
 					}
 
-					this.getPlayerTireLeft().attr({
-						rotation: self.rotation * 2.4
-					});
-					this.getPlayerTireRight().attr({
-						rotation: self.rotation * 2.4
-					});
+					if (this.getPlayerTireLeft()) {
+						this._playerTireLeft.attr({
+							rotation: self.rotation * 2.4
+						});
+					}
+
+					if (this.getPlayerTireRight()) {
+						this._playerTireRight.attr({
+							rotation: self.rotation * 2.4
+						});
+					}
 				})
 				.bind('Moved', function () {
 					/* Проверяем выход за сцену
@@ -157,7 +162,7 @@
 						Crafty('Delay').get(0).delay(function () {
 							Crafty.player.setPoints(Crafty('Points').getPoints());
 
-							Crafty.enterScene('game-over');
+							Crafty.enterScene('gameOver');
 						}, 250);
 					}
 				})

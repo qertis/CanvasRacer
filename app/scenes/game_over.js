@@ -1,7 +1,7 @@
 (function (Crafty) {
 	'use strict';
 
-	Crafty.defineScene('game-over', levelInit, levelOut);
+	Crafty.defineScene('gameOver', levelInit, levelOut);
 
 	function levelInit() {
 		Crafty.background('#000 url(content/images/game_over.png) no-repeat center center');
@@ -75,6 +75,8 @@
 		//выводим рекорды
 		Crafty.parse
 			.getUserRecords(3, function (obj) {
+				if(Crafty._current !== 'gameOver') return;
+
 				Crafty
 					.e('DefaultFont')
 					.attr({
@@ -95,6 +97,12 @@
 
 	function levelOut() {
 		Crafty('Gamepad').each(function () {
+			this.destroy();
+		});
+		Crafty('Button').each(function () {
+			this.destroy();
+		});
+		Crafty('DefaultFont').each(function () {
 			this.destroy();
 		});
 	}

@@ -39,7 +39,7 @@
 			},
 			"vehicles.png": {
 				"tile": 128,
-				"tileh": 300,
+				"tileh": 284,//300, у firefox ограничение в 284 пикселя
 				"map": {
 					playerCar: [0, 0], car1: [1, 0], car2: [2, 0], car3: [3, 0], car4: [4, 0]
 				}
@@ -73,8 +73,8 @@
 				Crafty('LoadingText').text('Loading: ' + '(' + e.loaded + '/' + e.total + ')');
 			},
 			function (e) { //uh oh, error loading
-				console.error('error')
-				console.error(e)
+				console.error('error');
+				console.error(e);
 			}
 		);
 	}

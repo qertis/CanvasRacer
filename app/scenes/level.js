@@ -4,9 +4,69 @@
 	Crafty.defineScene('level', levelInit, levelOut);
 
 	function levelInit() {
-		Crafty.background('rgb(127,127,127)');
+		Crafty.background('white');
 
 		Crafty.audio.play("music", -1); //Play the audio file
+
+		Crafty.e('Track');
+
+		Crafty.e('Pause');
+
+		Crafty.uniqueBind('Pause', function () {
+			/* обнуляем направление при нажатии на кнопку паузы */
+			Crafty('PlayerCar').each(function() {
+				this.attr({
+					_speed: {x: 0, y: 0},
+					_movement: {x: 0, y: 0}
+				});
+			});
+		});
+
+		Crafty.uniqueBind('Unpause', function () {
+			Crafty('PlayerCar').each(function() {
+				this.setCurrentSpeed();
+			});
+		});
+
+		Crafty.e('Points');
+
+		Crafty.e('Delay');
+
+		Crafty.e('2D, Canvas, Image')
+			.image("content/images/speedometer/arrow.png", "no-repeat")
+			.attr({
+				x: Crafty.viewport.width / 2 - 52,
+				y: 588,
+				z: 99,
+				rotation: 0
+			})
+			.origin(50, 6)
+			.bind('EnterFrame', function () {
+				var track = Crafty('Track').get(0);
+
+				var trackCurrentSpeed = track.getSpeed();
+				var trackMaxSpeed = track.getMaxSpeed();
+				var maxSpeedInfo = track.getMaxSpeedInfo();
+
+				this.rotation = trackCurrentSpeed / trackMaxSpeed * maxSpeedInfo;
+			})
+			/* debug */
+			//.addComponent('SolidHitBox')
+			//.debugFill("transparent")
+		;
+
+		Crafty
+			.e('2D, Canvas, Image')
+			.image("content/images/speedometer/speedometer.png", "no-repeat")
+			.attr({
+				x: Crafty.viewport.width / 2 - 150 / 2,
+				y: Crafty.viewport.height - 120,
+				z: 91,
+				w: 150,
+				h: 150,
+				alpha: 0.9
+			})
+		;
 
 		var playerCar = Crafty.e('PlayerCar').attr({
 				x: 200,
@@ -17,34 +77,6 @@
 		//.addComponent('WiredHitBox')
 		//.debugStroke("transparent")
 			;
-
-		Crafty.e('Track');
-
-		Crafty.e('Pause');
-
-		Crafty.uniqueBind('Pause', function () {
-			var playerCar = Crafty('PlayerCar').get(0);
-
-			if (playerCar) {
-				/* обнуляем направление при нажатии на кнопку паузы */
-				playerCar.attr({
-					_speed: {x: 0, y: 0},
-					_movement: {x: 0, y: 0}
-				});
-			}
-		});
-
-		Crafty.uniqueBind('Unpause', function () {
-			var playerCar = Crafty('PlayerCar').get(0);
-
-			if (playerCar) {
-				playerCar.setCurrentSpeed();
-			}
-		});
-
-		Crafty.e('Points');
-
-		Crafty.e('Delay');
 
 		var playerTireLeft = Crafty.e('2D, Canvas, playerTire, playerTireLeft')
 				.attr({z: 1, x: 207, y: 358})
@@ -98,6 +130,7 @@
 						y: -Crafty.math.randomInt(Crafty.viewport.height * 2.5, Crafty.viewport.height * 3)
 					})
 					/* debug */
+					//.addComponent('SolidHitBox')
 					//.addComponent('WiredHitBox')
 					//.debugStroke('transparent')
 				;
@@ -106,42 +139,6 @@
 			//Удаляем неиспользуемые ссылки.
 			enemyCarsLenght = trackSpeed = range = trackRandomPositions = trackPosition = null;
 		}, 1200, -1);
-
-		Crafty.e('2D, Canvas, Image')
-			.image("content/images/speedometer/arrow.png", "no-repeat")
-			.attr({
-				x: Crafty.viewport.width / 2 - 52,
-				y: 588,
-				z: 99,
-				rotation: 0
-			})
-			.origin(50, 6)
-			.bind('EnterFrame', function () {
-				var track = Crafty('Track').get(0);
-
-				var trackCurrentSpeed = track.getSpeed();
-				var trackMaxSpeed = track.getMaxSpeed();
-				var maxSpeedInfo = track.getMaxSpeedInfo();
-
-				this.rotation = trackCurrentSpeed / trackMaxSpeed * maxSpeedInfo;
-			})
-			/* debug */
-			//.addComponent('SolidHitBox')
-			//.debugFill("transparent")
-		;
-
-		Crafty
-			.e('2D, Canvas, Image')
-			.image("content/images/speedometer/speedometer.png", "no-repeat")
-			.attr({
-				x: Crafty.viewport.width / 2 - 150 / 2,
-				y: Crafty.viewport.height - 120,
-				z: 91,
-				w: 150,
-				h: 150,
-				alpha: 0.9
-			})
-		;
 
 		var particles = Crafty
 				.e("2D,Canvas,Particles")

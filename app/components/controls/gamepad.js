@@ -73,10 +73,12 @@
 		},
 
 		_getGamepad: function (index) {
-			var gamepad = navigator.getGamepads().item(index);
+			var gamepad = navigator.getGamepads();
 
-			if (gamepad && gamepad.connected) {
-				return gamepad;
+			if (gamepad && gamepad[index]) {
+				if(gamepad[index].connected) {
+					return gamepad[index];
+				}
 			}
 
 			return null;
