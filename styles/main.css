@@ -5,6 +5,11 @@
 /* mobile */
 @import url('screen.css');
 
+/* lock orientation */
+@viewport {
+    orientation: portrait;
+}
+
 html,
 body {
     background: #000000;
