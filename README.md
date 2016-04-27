@@ -1,9 +1,20 @@
 CanvasRacer
-===========
+> Crafty.js Canvas tutorial racing
 
-Tutorial Canvas racing on Crafty.js 
+# DEPRICATED! (because of parse.com is off)
+
+Tools:
+* Crafty
+* Video API
+* Intl 
+* Custom fonts
+* Gamepad API
+* DeviceOrientation API
+* Keyboard API
+* Parse.com
+* VK share
 
 Install:
+```
 bower install
-
-DEMO: http://goo.gl/Te4Bd1
+```
