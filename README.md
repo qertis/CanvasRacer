@@ -1,7 +1,7 @@
-CanvasRacer
+#CanvasRacer
 > Crafty.js Canvas tutorial racing
 
-# DEPRICATED! (because of parse.com is off)
+## DEPRECATED! (because of parse.com is off)
 
 Tools:
 * Crafty
