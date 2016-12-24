@@ -11,7 +11,11 @@
 			_userRecordObjectId: null,
 
 			initialize: function () {
-				Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
+			  try {
+          Parse.initialize(APPLICATION_ID, JAVASCRIPT_KEY);
+        } catch(error) {
+			    alert(error);
+        }
 
 				/* загружаем рекорды пользователя если они есть */
 				var userRecordObjectId = Crafty.storage('userRecordObjectId');
@@ -60,6 +64,9 @@
 			},
 
 			getUserRecords: function (limit, callback) {
+			  if(!window.Parse) {
+			    if(callback) return callback();
+        }
 				var UserRecords = Parse.Object.extend("UserRecords");
 				var query = new Parse.Query(UserRecords);
 

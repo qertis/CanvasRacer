@@ -10,7 +10,7 @@
 
 		var locationCallback = function (obj) {
 			if (obj.err) {
-				throw err;
+				throw obj.err;
 			} else if (obj.location) {
 				Crafty.player.setLocation(obj.location);
 
@@ -19,7 +19,7 @@
 				});
 
 				Crafty.pause(false);
-			} else if(obj.error) {
+			} else if(obj.error && typeof obj.error.PERMISSION_DENIED !== 'undefined') {
 				/* Если происходит ошибка - пробуем заново */
 				if(obj.error.code == obj.error.PERMISSION_DENIED) {
 					console.log(obj.error);
@@ -34,7 +34,14 @@
 						Crafty.player.getMyLocation(locationCallback);
 					}, 1000);
 				}
-			}
+			} else {
+		    /* Возможно Parse недоступен, запускаем без него */
+        Crafty('LoadingMessage').each(function() {
+          this.destroy();
+        });
+
+        Crafty.pause(false);
+      }
 		};
 
 		Crafty.player.getMyLocation(locationCallback);
@@ -75,7 +82,7 @@
 					Crafty.enterScene('level')
 				}
 			})
-			.setText('Start')
+			.setText('Start Game')
 			.setSize()
 		;
 

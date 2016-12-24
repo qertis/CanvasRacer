@@ -21,7 +21,11 @@
 			},
 
 			getLocation: function () {
-				return this._location;
+			  if(window.Parse) {
+          return this._location;
+        } else {
+			    return {};
+        }
 			},
 
 			getMyLocation: function (callback) {

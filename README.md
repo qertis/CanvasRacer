@@ -1,20 +1,20 @@
-#CanvasRacer
-> Crafty.js Canvas tutorial racing
+# CanvasRacer
+> Быстрый старт с Crafty
 
-## DEPRECATED! (because of parse.com is off)
-
-Tools:
-* Crafty
+## Используемые API:
+* Canvas API
 * Video API
-* Intl 
 * Custom fonts
 * Gamepad API
 * DeviceOrientation API
 * Keyboard API
 * Parse.com
-* VK share
+* VK Share
 
-Install:
-```
+## Установка:
+```bash
 bower install
 ```
+
+--
+Подготовлено специально для http://blog.baskovsky.ru/ 

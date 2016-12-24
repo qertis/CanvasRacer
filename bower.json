@@ -1,24 +1,20 @@
 {
   "name": "CanvasRacer",
-  "version": "0.2.0",
-  "homepage": "https://github.com/qertis/CanvasRacer",
+  "version": "0.3.0",
+  "homepage": "http://blog.baskovsky.ru/2015/01/start-with-craftyjs.html",
   "authors": [
-    "qertis"
+    "Denis Baskovsky aka qertis"
   ],
-  "description": "HTML5 canvas racing game with crafty.js",
+  "description": "Canvas Racing Game using Crafty.js",
   "keywords": [
+    "crafty",
     "canvas",
-    "game",
-    "html5",
-    "racing"
+    "racing game"
   ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
   "dependencies": {
     "crafty": "0.6.3",

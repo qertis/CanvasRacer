@@ -42,7 +42,7 @@
 			.bind('Click', function () {
 				Crafty.scene('level');
 			})
-			.setText('Again')
+			.setText('Play again')
 			.setSize()
 		;
 
@@ -70,12 +70,15 @@
 		;
 
 		//автоматически записываем состояние гонки в БД
-		Crafty.parse.saveUserRecords(Crafty.player.getPoints(), Crafty.player.getLocation());
+    if(window.Parse) {
+      Crafty.parse.saveUserRecords(Crafty.player.getPoints(), Crafty.player.getLocation());
+    }
 
 		//выводим рекорды
 		Crafty.parse
 			.getUserRecords(3, function (obj) {
 				if(Crafty._current !== 'gameOver') return;
+				if(!obj) return;
 
 				Crafty
 					.e('DefaultFont')
