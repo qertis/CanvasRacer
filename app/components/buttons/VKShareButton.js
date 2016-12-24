@@ -12,7 +12,7 @@
 		init: function () {
 			this.requires('2D, Canvas, share, Mouse')
 				.bind('Click', function () {
-					var href = 'http://vk.com/share.php?url=' + this.url +
+					var href = '//vk.com/share.php?url=' + this.url +
 							'&title=' + this.title +
 							'&description=' + this.description +
 							'&image=' + this.image +

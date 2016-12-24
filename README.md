@@ -7,6 +7,7 @@
 * Gamepad API
 * Keyboard API
 * DeviceOrientation API
+* Yandex GeoCode API
 * Custom Fonts
 * Parse.com
 * VK Share

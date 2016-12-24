@@ -1,7 +1,7 @@
 (function (Crafty) {
 	'use strict';
 
-	var GEOCODE_PROVIDER = "http://geocode-maps.yandex.ru/1.x/?format=json&geocode=";
+	var GEOCODE_PROVIDER = "//geocode-maps.yandex.ru/1.x/?format=json&geocode=";
 
 	Crafty.extend({
 		geo: {
