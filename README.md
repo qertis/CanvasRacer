@@ -4,17 +4,21 @@
 ## Используемые API:
 * Canvas API
 * Video API
-* Custom fonts
 * Gamepad API
-* DeviceOrientation API
 * Keyboard API
+* DeviceOrientation API
+* Custom Fonts
 * Parse.com
 * VK Share
+
+## Используемые библиотеки:
+* jQuery
+* Crafty
+* Parse
 
 ## Установка:
 ```bash
 bower install
 ```
-
 --
-Подготовлено специально для http://blog.baskovsky.ru/ 
+Подготовлено специально для [Baskovsky's](http://blog.baskovsky.ru/2015/01/start-with-craftyjs.html) по лицензии MIT
