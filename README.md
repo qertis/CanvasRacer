@@ -18,8 +18,9 @@
 * Parse
 
 ## Установка:
-```bash
-bower install
-```
---
+* Скачать https://github.com/gotois/CanvasRacer/archive/Release.zip
+* Распаковать 
+* Выполнить в директории ```bower install```
+
+===
 Подготовлено специально для [Baskovsky's](http://blog.baskovsky.ru/2015/01/start-with-craftyjs.html) по лицензии MIT
