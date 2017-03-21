@@ -1,5 +1,5 @@
-# CanvasRacer
-> Быстрый старт с Crafty
+# Быстрый старт с Crafty
+> Подготовлено специально для [Baskovsky's](http://blog.baskovsky.ru/2015/01/start-with-craftyjs.html)
 
 ## Используемые API:
 * Canvas API
@@ -22,5 +22,4 @@
 * Распаковать 
 * Выполнить в директории ```bower install```
 
-===
-Подготовлено специально для [Baskovsky's](http://blog.baskovsky.ru/2015/01/start-with-craftyjs.html) по лицензии MIT
+
